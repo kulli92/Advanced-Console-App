@@ -1,9 +1,9 @@
 ﻿<Application x:Class="Console.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Console"
-             StartupUri="MainWindow.xaml">
+             xmlns:vm="clr-namespace:Console.ViewModel"
+             StartupUri="View\Console_Window.xaml">
     <Application.Resources>
-         
+        <vm:ViewModelLocator x:Key="TheLocatorKey"></vm:ViewModelLocator>
     </Application.Resources>
 </Application>

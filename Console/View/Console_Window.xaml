@@ -1,0 +1,164 @@
+﻿<Window x:Class="Console.View.Console_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        DataContext="{Binding Source={StaticResource TheLocatorKey},  Path=Mine}"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Console.View"
+        xmlns:far="clr-namespace:DictionaryHandler;assembly=DictionaryHandler"
+        mc:Ignorable="d"
+       Title="Console_Window" Height="450" Width="800"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+        
+        <Style TargetType="DataGrid" x:Key="LogViewerStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <ScrollViewer CanContentScroll="True">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+              
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <DataTemplate DataType="{x:Type far:Parameter}">
+            <Grid IsSharedSizeScope="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
+                    <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+             
+                <TextBlock Text="{Binding ParamName }" Grid.Column="0"
+                       FontWeight="Bold" Margin="5,0,5,0"/>
+                <TextBlock Text="{Binding Value}" Grid.Column="1"
+                       FontWeight="Bold" Margin="0,0,2,0" />
+            </Grid>
+        </DataTemplate>
+
+        <!--  <DataTemplate DataType="{x:Type local:CollapsibleLogEntry}">
+            <Grid IsSharedSizeScope="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
+                    <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding DateTime}" Grid.Column="0"
+                       FontWeight="Bold" Margin="5,0,5,0"/>
+
+                <TextBlock Text="{Binding Index}" Grid.Column="1"
+                       FontWeight="Bold" Margin="0,0,2,0" />
+
+                <TextBlock Text="{Binding Message}" Grid.Column="2"
+                       TextWrapping="Wrap"/>
+
+                <ToggleButton x:Name="Expander" Grid.Row="1" Grid.Column="0"
+                          VerticalAlignment="Top" Content="+" HorizontalAlignment="Right"/>
+
+                <ItemsControl ItemsSource="{Binding Contents}" Style="{StaticResource LogViewerStyle}"
+                          Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                          x:Name="Contents" Visibility="Collapsed"/>
+
+            </Grid>
+            <DataTemplate.Triggers>
+                <Trigger SourceName="Expander" Property="IsChecked" Value="True">
+                    <Setter TargetName="Contents" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="Expander" Property="Content" Value="-"/>
+                </Trigger>
+            </DataTemplate.Triggers>
+        </DataTemplate> -->
+    </Window.Resources>
+
+    <!--   <Grid>
+        <ListView Grid.Column="0" Margin="5" 
+                  Name="CoffeeListView" 
+                  ItemsSource="{Binding MyList}" 
+                  Background="White"
+                  VerticalAlignment="Top">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+         <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" >
+                        <Border BorderBrush="#CCCCCC" BorderThickness="1">
+                            <Grid Background="LightCoral" ShowGridLines="true" Width="100">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding ParamName}" FontSize="10" Grid.Column="0"  Grid.ColumnSpan="2" FontWeight="Bold"></Label>
+                                <Label Content="{Binding Value}" FontSize="10" Grid.Column="1"  Grid.ColumnSpan="2" FontWeight="Bold"></Label>
+
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView> -->
+    <DockPanel >
+        <Label  Content="{Binding count}" Background="Red"  x:Name="thelog"  
+               DockPanel.Dock="Top" HorizontalAlignment="Right" Width="202" Height="24" Margin="0,0,374,0"/>
+        <DataGrid  ItemsSource="{Binding MyList}" AutoGenerateColumns="False" AlternatingRowBackground="LightCoral" SelectionMode="Single" CanUserResizeColumns="True" BorderBrush="red"  HorizontalGridLinesBrush="IndianRed">
+            <DataGrid.LayoutTransform>
+                <RotateTransform CenterX="0.5" CenterY="0.5" Angle="360"/>
+            </DataGrid.LayoutTransform>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="100" Binding="{Binding Value}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock  Text="{Binding Source={StaticResource TheLocatorKey},Path=Mine.count}"></TextBlock>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+    
+
+          
+        </DataGrid>
+        
+       
+    </DockPanel>
+</Window>
+<!--
+<ItemsControl Background="Red" ItemsSource="{Binding MyList}" Style="{StaticResource LogViewerStyle}">
+    <ItemsControl.Template>
+        <ControlTemplate>
+            <ScrollViewer CanContentScroll="True" ScrollChanged="ScrollViewer_ScrollChanged">
+                <ItemsPresenter/>
+            </ScrollViewer>
+        </ControlTemplate>
+    </ItemsControl.Template>
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <VirtualizingStackPanel IsItemsHost="True"/>
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+</ItemsControl>
+    -->
