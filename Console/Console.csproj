@@ -75,6 +75,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Parameter.cs" />
+    <Compile Include="ViewModel\AnyType.cs" />
     <Compile Include="ViewModel\Console_WindowVM.cs" />
     <Compile Include="ViewModel\LogVM.cs" />
     <Compile Include="ViewModel\SerialPortVM.cs" />

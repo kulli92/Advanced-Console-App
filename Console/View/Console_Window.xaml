@@ -16,46 +16,14 @@
     </i:Interaction.Triggers>
 
     <Window.Resources>
-        
-        <Style TargetType="DataGrid" x:Key="LogViewerStyle">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <ScrollViewer CanContentScroll="True">
-                            <ItemsPresenter/>
-                        </ScrollViewer>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            
-              
-            <Setter Property="ItemsPanel">
-                <Setter.Value>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel IsItemsHost="True"/>
-                    </ItemsPanelTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+     
 
 
-        <DataTemplate DataType="{x:Type far:Parameter}">
-            <Grid IsSharedSizeScope="True">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
-                    <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
 
-             
-                <TextBlock Text="{Binding ParamName }" Grid.Column="0"
-                       FontWeight="Bold" Margin="5,0,5,0"/>
-                <TextBlock Text="{Binding Value}" Grid.Column="1"
-                       FontWeight="Bold" Margin="0,0,2,0" />
-            </Grid>
-        </DataTemplate>
 
-        <!--  <DataTemplate DataType="{x:Type local:CollapsibleLogEntry}">
+
+
+        <!-- <DataTemplate DataType="{x:Type local:CollapsibleLogEntry}">
             <Grid IsSharedSizeScope="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
@@ -91,6 +59,29 @@
                     <Setter TargetName="Expander" Property="Content" Value="-"/>
                 </Trigger>
             </DataTemplate.Triggers>
+          <DataTemplate DataType="{x:Type far:Parameter}">
+            <Grid IsSharedSizeScope="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
+                    <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding ParamName}" Grid.Column="0"
+                       FontWeight="Bold" Margin="5,0,5,0"/>
+
+                <TextBlock Text="{Binding Value}" Grid.Column="1"
+                       FontWeight="Bold" Margin="0,0,2,0" />
+
+                <TextBlock Text="{Binding Index}" Grid.Column="2"
+                       TextWrapping="Wrap"/>
+            </Grid>
+        </DataTemplate> 
         </DataTemplate> -->
     </Window.Resources>
 
@@ -123,11 +114,16 @@
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView> -->
-    <DockPanel >
-        <Label  Content="{Binding count}" Background="Red"  x:Name="thelog"  
-               DockPanel.Dock="Top" HorizontalAlignment="Right" Width="202" Height="24" Margin="0,0,374,0"/>
-        <DataGrid  ItemsSource="{Binding MyList}" AutoGenerateColumns="False" AlternatingRowBackground="LightCoral" SelectionMode="Single" CanUserResizeColumns="True" BorderBrush="red"  HorizontalGridLinesBrush="IndianRed">
+        </ListView> 
+    -->
+
+    <DataGrid ItemsSource="{Binding DummyList}"
+              Name="DG" Grid.Row="0"
+              AutoGenerateColumns="False"
+              AlternatingRowBackground="LightBlue"
+              CanUserAddRows="False">
+    </DataGrid>
+    <!--
             <DataGrid.LayoutTransform>
                 <RotateTransform CenterX="0.5" CenterY="0.5" Angle="360"/>
             </DataGrid.LayoutTransform>
@@ -138,13 +134,7 @@
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </DataGrid.Columns>
-    
-
-          
-        </DataGrid>
-        
-       
-    </DockPanel>
+            -->
 </Window>
 <!--
 <ItemsControl Background="Red" ItemsSource="{Binding MyList}" Style="{StaticResource LogViewerStyle}">
