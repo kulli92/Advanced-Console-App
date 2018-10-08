@@ -36,6 +36,7 @@ namespace Console.View
             InitializeComponent();
 
             var ViewModel = new Console_WindowVM();
+
             for (int i = 0; i < ViewModel.MyList.Count; i++)
             {
                 var TempCol = new DataGridTextColumn();

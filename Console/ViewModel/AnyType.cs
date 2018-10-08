@@ -11,6 +11,8 @@
         public string Val7{ get; set; }
         public string Val8{ get; set; }
         public string Val9{ get; set; }
+        public string Val10{ get; set; }
+
 
     }
 }
