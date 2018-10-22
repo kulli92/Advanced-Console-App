@@ -164,7 +164,6 @@ namespace DictionaryHandler
             }
             foreach (var item in TempParameterContainer)
             {
-                var SHouldBeDeletereded = 3;
                 temp = item.ToList();
                 ParamDic[temp[0] + "" + temp[1]].Value = "";
                 for (int i = 2; i < temp.Count; i++)
