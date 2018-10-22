@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Console.ViewModel
 {
-    class ViewModelLocator
+    class SerialPortVM
     {
-        public static Console_WindowVM Mine { get; } = new Console_WindowVM();
     }
 }

@@ -78,16 +78,13 @@
     <Compile Include="ViewModel\AnyType.cs" />
     <Compile Include="ViewModel\Console_WindowVM.cs" />
     <Compile Include="ViewModel\LogVM.cs" />
-    <Compile Include="ViewModel\ParameterSelectorVM.cs" />
+    <Compile Include="ViewModel\SerialPortVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Console_Window.xaml.cs">
       <DependentUpon>Console_Window.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Log.xaml.cs">
       <DependentUpon>Log.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ParameterSelector.xaml.cs">
-      <DependentUpon>ParameterSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SerialPort.xaml.cs">
       <DependentUpon>SerialPort.xaml</DependentUpon>
@@ -129,10 +126,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Log.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ParameterSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

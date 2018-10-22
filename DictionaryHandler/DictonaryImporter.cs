@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using OfficeOpenXml;
 
@@ -15,9 +14,8 @@ namespace DictionaryHandler
         public static  string UserString { get; set; } = "AA[32423]Ad34345BJ'THisisEspartea'AC<Ab43Bw33>Bc3994345Cg[8234]AI21AZ99";
         static Dictionary<string, Parameter> ParamDic = new Dictionary<string, Parameter> { };
         static Dictionary<string, ParameterObject> ObjectDic = new Dictionary<string, ParameterObject> { };
-       // readonly string data;
+        string data;
         static public bool DictionaryHasBeenInitilized { get; set; } = false;
-        public static SerialCommunicationTunnel Tunnel { get; set; } = new SerialCommunicationTunnel();
         //------------------------------------------
         public static void ParameterDicInitilizer()
         {
@@ -50,32 +48,14 @@ namespace DictionaryHandler
             }
         }
         //------------------------------------------
-        public static Dictionary<string,Parameter> RowDictionaryProvider()
-        {
-            if (DictionaryHasBeenInitilized)
-            {
-                return ParamDic;
-            }
-            else
-            {
-                ParameterDicInitilizer();
-                return ParamDic;
-            }
-        }
-        //------------------------------------------
         private static List<string> StringSplitter(string str)
         {
-            if (str == "")
-            {
-                 new NotImplementedException();
-            }
             List<string> ProccessedList = new List<string> { };
             ProccessedList.Add(str[0] + "" + str[1]);
             var SinglPartString = ProccessedList[0];
             int counter = 3;
             int i = 0;
-
-            while (counter < str.Length && str[counter - 1] != 59)
+            while (counter < str.Length)
             {
                 //as long as it is a decimal number increase the counter
                 while (str[counter - 1] > 47 && str[counter - 1] < 58)
@@ -204,24 +184,19 @@ namespace DictionaryHandler
             }
         }
         //------------------------------------------
-        private static  ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
-        public static   ObservableCollection<Parameter> ParameterList(string ConfigurationString)
+
+        public static  ObservableCollection<Parameter> ParameterList()
         {
             string TempString = "";
-            //string DeviceResponse = "";
-            FinalList.Clear();
+            string includedString = "";
             List<string> ProccessedList = new List<string> { };
             if (DictionaryHasBeenInitilized == false)
             {
                 ParameterDicInitilizer();
             }
-            ProccessedList =  StringSplitter(Tunnel.SelectedParameterValueGetter(ConfigurationString));
-            foreach (var item in ParamDic)
-            {
-                item.Value.Value = "";
-            }
+            ProccessedList = StringSplitter(UserString);
             ParameterDefiner(ProccessedList);
-
+            var FinalList = new ObservableCollection<Parameter> { };
             foreach (var ParameterKey in ParamDic)
             {
                 if (ParameterKey.Value.Value != "")
@@ -234,26 +209,10 @@ namespace DictionaryHandler
                     ParameterKey.Value.Value = TempString;
                     FinalList.Add(ParameterKey.Value);
                 }
+
+               
             }
             return FinalList;
         }
-
-        private static readonly Random random = new Random();
-        private static Random RandomNumber = new Random();
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-
-       //Generates Random Values TO send Over serial...
-        private static string RandomString(int v)
-        {
-            var TempString = "";
-            for (int i = 0; i < v; i++)
-            {
-                TempString += "A" + chars[i];
-                TempString += RandomNumber.Next(1, 99);
-            }
-            return TempString + ";";
-        }
-
     }
 }
