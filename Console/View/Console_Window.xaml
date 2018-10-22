@@ -7,23 +7,174 @@
         xmlns:local="clr-namespace:Console.View"
         xmlns:far="clr-namespace:DictionaryHandler;assembly=DictionaryHandler"
         mc:Ignorable="d"
-       Title="Console_Window" Height="450" Width="800"
+       Title="Console_Window"  Width="1300" Height="720" SizeToContent="WidthAndHeight"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
-    <Window.Resources>
-     
 
 
 
+    <Grid  Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="Black"  
+                Background="White" 
+                BorderThickness="1" 
+                CornerRadius="5" 
+                Margin="11,11,11,11">
+
+            <DataGrid
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                ItemsSource="{Binding DummyList}"
+                Name="DG" 
+                AutoGenerateColumns="False"
+                AlternatingRowBackground="LightBlue"
+                >
+            </DataGrid>
+
+        </Border >
+
+        <Grid Grid.Row="1" Margin="0,0,0,22" >
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <GroupBox
+            BorderThickness="1" 
+            Grid.RowSpan="2"
+            Header="Serial Port Setting"
+            BorderBrush="Gray" Grid.Row="2" Grid.Column="1" 
+            
+            VerticalAlignment="Center" 
+            >
+
+                <ContentControl DockPanel.Dock="Left">
+                    <local:SerialPort ></local:SerialPort>
+                </ContentControl>
+            </GroupBox>
+            <Button Grid.Row="1" Grid.Column="1" Content="Parameter Selector"
+                    Margin="11,11,11,11" Click="Open_Parameter_Selector" >
+
+            </Button>
+            <Button Grid.Row="0" Grid.Column="1" Content="Debug_On" 
+                    Margin="11,11,11,11"  Width="200" HorizontalAlignment="Left" Command="{Binding Debug_On_Command}" >
+
+            </Button>
+            <Button Grid.Row="0" Grid.Column="1" Content="Debug_Off"
+                    Margin="11,11,11,11" Command="{Binding Debug_Off_Command}" Width="200" HorizontalAlignment="Right" >
+
+            </Button>
+
+            <GroupBox Grid.Column="0" Grid.RowSpan="3"  BorderBrush="Purple"
+                      Header=" Tabs and other stuff ">
+
+            </GroupBox>
+            <GroupBox Grid.Column="2" Grid.RowSpan="3"  BorderBrush="Purple"
+                      Header=" Commands and Buttons ">
+                <Button Content="Update Table" HorizontalAlignment="Left" Margin="106,68,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+
+            </GroupBox>
+
+        </Grid>
+    </Grid>
+</Window>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+<!--
+            <DataGrid.LayoutTransform>
+                <RotateTransform CenterX="0.5" CenterY="0.5" Angle="360"/>
+            </DataGrid.LayoutTransform>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="100" Binding="{Binding Value}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock  Text="{Binding Source={StaticResource TheLocatorKey},Path=Mine.count}"></TextBlock>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+            -->
+<!--
+<ItemsControl Background="Red" ItemsSource="{Binding MyList}" Style="{StaticResource LogViewerStyle}">
+    <ItemsControl.Template>
+        <ControlTemplate>
+            <ScrollViewer CanContentScroll="True" ScrollChanged="ScrollViewer_ScrollChanged">
+                <ItemsPresenter/>
+            </ScrollViewer>
+        </ControlTemplate>
+    </ItemsControl.Template>
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <VirtualizingStackPanel IsItemsHost="True"/>
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+</ItemsControl>
+    -->
+
+<!--   <Grid>
+        <ListView Grid.Column="0" Margin="5" 
+                  Name="CoffeeListView" 
+                  ItemsSource="{Binding MyList}" 
+                  Background="White"
+                  VerticalAlignment="Top">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+         <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" >
+                        <Border BorderBrush="#CCCCCC" BorderThickness="1">
+                            <Grid Background="LightCoral" ShowGridLines="true" Width="100">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding ParamName}" FontSize="10" Grid.Column="0"  Grid.ColumnSpan="2" FontWeight="Bold"></Label>
+                                <Label Content="{Binding Value}" FontSize="10" Grid.Column="1"  Grid.ColumnSpan="2" FontWeight="Bold"></Label>
+
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView> 
+    -->
 
 
 
-        <!-- <DataTemplate DataType="{x:Type local:CollapsibleLogEntry}">
+
+
+
+
+<!-- <DataTemplate DataType="{x:Type local:CollapsibleLogEntry}">
             <Grid IsSharedSizeScope="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
@@ -83,72 +234,3 @@
             </Grid>
         </DataTemplate> 
         </DataTemplate> -->
-    </Window.Resources>
-
-    <!--   <Grid>
-        <ListView Grid.Column="0" Margin="5" 
-                  Name="CoffeeListView" 
-                  ItemsSource="{Binding MyList}" 
-                  Background="White"
-                  VerticalAlignment="Top">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
-         <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" >
-                        <Border BorderBrush="#CCCCCC" BorderThickness="1">
-                            <Grid Background="LightCoral" ShowGridLines="true" Width="100">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Label Content="{Binding ParamName}" FontSize="10" Grid.Column="0"  Grid.ColumnSpan="2" FontWeight="Bold"></Label>
-                                <Label Content="{Binding Value}" FontSize="10" Grid.Column="1"  Grid.ColumnSpan="2" FontWeight="Bold"></Label>
-
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView> 
-    -->
-
-    <DataGrid ItemsSource="{Binding DummyList}"
-              Name="DG" Grid.Row="0"
-              AutoGenerateColumns="False"
-              AlternatingRowBackground="LightBlue"
-              CanUserAddRows="False">
-    </DataGrid>
-    <!--
-            <DataGrid.LayoutTransform>
-                <RotateTransform CenterX="0.5" CenterY="0.5" Angle="360"/>
-            </DataGrid.LayoutTransform>
-            <DataGrid.Columns>
-                <DataGridTextColumn Width="100" Binding="{Binding Value}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock  Text="{Binding Source={StaticResource TheLocatorKey},Path=Mine.count}"></TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
-            </DataGrid.Columns>
-            -->
-</Window>
-<!--
-<ItemsControl Background="Red" ItemsSource="{Binding MyList}" Style="{StaticResource LogViewerStyle}">
-    <ItemsControl.Template>
-        <ControlTemplate>
-            <ScrollViewer CanContentScroll="True" ScrollChanged="ScrollViewer_ScrollChanged">
-                <ItemsPresenter/>
-            </ScrollViewer>
-        </ControlTemplate>
-    </ItemsControl.Template>
-    <ItemsControl.ItemsPanel>
-        <ItemsPanelTemplate>
-            <VirtualizingStackPanel IsItemsHost="True"/>
-        </ItemsPanelTemplate>
-    </ItemsControl.ItemsPanel>
-</ItemsControl>
-    -->

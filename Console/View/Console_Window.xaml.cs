@@ -1,4 +1,5 @@
 ﻿using Console.ViewModel;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,17 +31,40 @@ namespace Console.View
 
     {
         public AnyType ValuesBuffer { get; set; } = new AnyType();
+        public static bool Debug_On { get; private set; } = false;
 
         public Console_Window()
         {
             InitializeComponent();
+            DispatcherTimer dt = new DispatcherTimer();
+            dt.Interval = TimeSpan.FromMilliseconds(1000);
+            dt.Tick += UpdateEverySecond;
+            dt.Start();
+        }
+        private void UpdateEverySecond(object sender, EventArgs e)
+        {
+            DG.ScrollIntoView(DG.Items.GetItemAt(DG.Items.Count - 1));
+        }
 
-            var ViewModel = new Console_WindowVM();
+        private void Open_Parameter_Selector(object sender, RoutedEventArgs e)
+        {
+            ParameterSelector win2 = new ParameterSelector();
+            win2.Show();
+        }
 
-            for (int i = 0; i < ViewModel.MyList.Count; i++)
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeComponent();
+            //Delete all previous Columns
+            while (DG.Columns.Count > 0)
+            {
+                DG.Columns.RemoveAt(DG.Columns.Count-1);
+            }
+           // Assign Headers and bindings to columns
+           for (int i = 0; i < ViewModel.ParameterSelectorVM.ConfigurationList.Count; i++)
             {
                 var TempCol = new DataGridTextColumn();
-                TempCol.Header = ViewModel.MyList[i].ParamName;
+                TempCol.Header = ViewModel.ParameterSelectorVM.ConfigurationList[i];
                 switch (i)
                 {
                     case 0:
@@ -70,57 +94,76 @@ namespace Console.View
                     case 8:
                         TempCol.Binding = new Binding("Val9");
                         break;
+                    case 9:
+                        TempCol.Binding = new Binding("Val10");
+                        break;
+                    case 10:
+                        TempCol.Binding = new Binding("Val11");
+                        break;
+                    case 11:
+                        TempCol.Binding = new Binding("Val12");
+                        break;
+                    case 12:
+                        TempCol.Binding = new Binding("Val13");
+                        break;
+                    case 13:
+                        TempCol.Binding = new Binding("Val14");
+                        break;
+                    case 15:
+                        TempCol.Binding = new Binding("Val16");
+                        break;
+                    case 16:
+                        TempCol.Binding = new Binding("Val17");
+                        break;
+                    case 17:
+                        TempCol.Binding = new Binding("Val18");
+                        break;
+                    case 18:
+                        TempCol.Binding = new Binding("Val19");
+                        break;
+                    case 19:
+                        TempCol.Binding = new Binding("Val20");
+                        break;
                     default:
                         break;
                 }
 
                 DG.Columns.Add(TempCol);
-                DispatcherTimer dt = new DispatcherTimer();
-                dt.Interval = TimeSpan.FromMilliseconds(1000);
-                dt.Tick += UpdateEverySecond;
-                dt.Start();
+
             }
 
-        }
-
-        private void UpdateEverySecond(object sender, EventArgs e)
-        {
-            DG.ScrollIntoView(DG.Items.GetItemAt(DG.Items.Count - 1));
-
-        }
-
-
-        /*  private bool AutoScroll = true;
-private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
-{
-DG.HeadersVisibility = System.Windows.Controls.DataGridHeadersVisibility.All ;
-// User scroll event : set or unset autoscroll mode
-if (e.ExtentHeightChange == 0)
-{   // Content unchanged : user scroll event
-if ((e.Source as ScrollViewer).VerticalOffset == (e.Source as ScrollViewer).ScrollableHeight)
-{   // Scroll bar is in bottom
-    // Set autoscroll mode
-    AutoScroll = true;
-}
-else
-{   // Scroll bar isn't in bottom
-    // Unset autoscroll mode
-    AutoScroll = false;
-}
-}
-
-// Content scroll event : autoscroll eventually
-if (AutoScroll && e.ExtentHeightChange != 0)
-{   // Content changed and autoscroll mode set
-// Autoscroll
-//(e.Source as ScrollViewer).ScrollToVerticalOffset((e.Source as ScrollViewer).ExtentHeight);
-}
-}
-*/
+            /*  private bool AutoScroll = true;
+    private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+    DG.HeadersVisibility = System.Windows.Controls.DataGridHeadersVisibility.All ;
+    // User scroll event : set or unset autoscroll mode
+    if (e.ExtentHeightChange == 0)
+    {   // Content unchanged : user scroll event
+    if ((e.Source as ScrollViewer).VerticalOffset == (e.Source as ScrollViewer).ScrollableHeight)
+    {   // Scroll bar is in bottom
+        // Set autoscroll mode
+        AutoScroll = true;
+    }
+    else
+    {   // Scroll bar isn't in bottom
+        // Unset autoscroll mode
+        AutoScroll = false;
+    }
     }
 
-
+    // Content scroll event : autoscroll eventually
+    if (AutoScroll && e.ExtentHeightChange != 0)
+    {   // Content changed and autoscroll mode set
+    // Autoscroll
+    //(e.Source as ScrollViewer).ScrollToVerticalOffset((e.Source as ScrollViewer).ExtentHeight);
     }
+    }
+    */
+        }
+    }
+}
+
+
 
 
 

@@ -1,0 +1,46 @@
+﻿<Window x:Class="Console.View.ParameterSelector"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        DataContext="{Binding Source={StaticResource TheLocatorKey},  Path=ParameterSelectorViewModel}"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Console.View"
+        mc:Ignorable="d"
+        Title="ParameterSelector" Height="450" Width="800"
+        MaxHeight="450" MaxWidth="800">
+    <Grid Background="LightGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="15">
+            <Label Content="All Paramters" HorizontalAlignment="Center"  FontSize="18"></Label>
+            <ListBox SelectionMode="Multiple"
+                     x:Name="FirstList" BorderBrush="AliceBlue"
+                     Background="White"  ItemsSource="{Binding NamesList}" Margin="15" Height="325">
+
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel Margin="15,157,15,15" Grid.Column="1"   >
+            <Button Background="Gray" Content="&gt;&gt;" FontSize="25"
+                Height="60"  Click="MoveElement"
+                Margin="15"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                />
+            <Button Content="Save &amp; Exit" Background="Gray" Height="50" Margin="15" 
+                    VerticalAlignment="Bottom" Click="Save_And_Exit"/>
+        </StackPanel>
+
+        <StackPanel Margin="15" Grid.Column="2" >
+            <Label Content="Selected Paramters" HorizontalAlignment="Center" FontSize="18"></Label>
+            <ListBox  x:Name="SecondList"  Margin="15" Height="325">
+            </ListBox>
+        </StackPanel>
+
+
+
+    </Grid>
+</Window>
