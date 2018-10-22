@@ -8,7 +8,8 @@
         xmlns:far="clr-namespace:DictionaryHandler;assembly=DictionaryHandler"
         mc:Ignorable="d"
        Title="Console_Window"  Width="1300" Height="720" SizeToContent="WidthAndHeight"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Activated="Window_Activated">
 
 
 
@@ -30,7 +31,7 @@
             <DataGrid
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch" 
-                ItemsSource="{Binding DummyList}"
+                ItemsSource="{Binding DataGridBindingList}"
                 Name="DG" 
                 AutoGenerateColumns="False"
                 AlternatingRowBackground="LightBlue"
@@ -83,7 +84,7 @@
             </GroupBox>
             <GroupBox Grid.Column="2" Grid.RowSpan="3"  BorderBrush="Purple"
                       Header=" Commands and Buttons ">
-                <Button Content="Update Table" HorizontalAlignment="Left" Margin="106,68,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+                <Button Content="Update Table" HorizontalAlignment="Left" Margin="106,68,0,0" VerticalAlignment="Top" Width="75"/>
 
             </GroupBox>
 

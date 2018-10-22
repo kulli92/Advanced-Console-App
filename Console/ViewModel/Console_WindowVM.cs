@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using DictionaryHandler;
@@ -18,7 +19,7 @@ namespace Console.ViewModel
     {
         public ObservableCollection<Parameter> MyList { get; set; }
         
-        public ObservableCollection<AnyType> DummyList { get; set; } = new ObservableCollection<AnyType>() { };
+        public ObservableCollection<AnyType> DataGridBindingList { get; set; } = new ObservableCollection<AnyType>() { };
         public static bool Debug_ON { get; set; } = true;
         DispatcherTimer dt = new DispatcherTimer();
         public bool OnlyOnce = true;
@@ -53,9 +54,11 @@ namespace Console.ViewModel
                 dt.Interval = TimeSpan.FromMilliseconds(1000);
                 dt.Tick += GetNewLine;
                 OnlyOnce = false;
+                
             }
+            DataGridBindingList?.Clear();
 
-            
+
             dt.Start();
         }
 
@@ -133,7 +136,8 @@ namespace Console.ViewModel
                        break;
                }
            }
-           DummyList.Add(JustValuesObject);
+          
+           DataGridBindingList.Add(JustValuesObject);
         }
 
         private bool CanExecute_Debug_On_Command(int arg)

@@ -29,10 +29,16 @@ namespace DictionaryHandler
         }
         public string SelectedParameterValueGetter(string ConfigurationString)
         {
-
+            
             serialPort.Write("$" + ConfigurationString);
-            Thread.Sleep(50);
-            string ResponseString = serialPort.ReadExisting();
+            Thread.Sleep(222);
+            string ResponseString = "";
+            ResponseString = serialPort.ReadExisting();
+            while(ResponseString == "")
+            {
+               
+                ResponseString = serialPort.ReadExisting();
+            }
             return ResponseString;
 
         }

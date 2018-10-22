@@ -67,8 +67,9 @@ namespace DictionaryHandler
         {
             if (str == "")
             {
-                 new NotImplementedException();
+                throw new NotImplementedException();
             }
+         
             List<string> ProccessedList = new List<string> { };
             ProccessedList.Add(str[0] + "" + str[1]);
             var SinglPartString = ProccessedList[0];
@@ -168,6 +169,9 @@ namespace DictionaryHandler
             }
             return ProccessedList;
         }
+
+     
+
         //------------------------------------------ Assign Value for each key
         private static void ParameterDefiner(List<string> ProccessedList)
         {
