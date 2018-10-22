@@ -9,5 +9,6 @@ namespace Console.ViewModel
     class ViewModelLocator
     {
         public static Console_WindowVM Mine { get; } = new Console_WindowVM();
+        public static ParameterSelectorVM ParameterSelectorViewModel { get; } = new ParameterSelectorVM();
     }
 }
