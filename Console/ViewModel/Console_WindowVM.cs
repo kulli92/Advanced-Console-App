@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -17,11 +18,12 @@ namespace Console.ViewModel
 {
   public class Console_WindowVM :INotifyPropertyChanged
     {
-        public ObservableCollection<Parameter> MyList { get; set; }
+        public ObservableCollection<Parameter> MyList { get; set; } = new ObservableCollection<Parameter>() { };
         
-        public ObservableCollection<AnyType> DataGridBindingList { get; set; } = new ObservableCollection<AnyType>() { };
+        public ObservableCollection<ValuesObjects> DataGridBindingList { get; set; } = new ObservableCollection<ValuesObjects>() { };
         public static bool Debug_ON { get; set; } = true;
         DispatcherTimer dt = new DispatcherTimer();
+        DispatcherTimer dt2 = new DispatcherTimer();
         public bool OnlyOnce = true;
         public event PropertyChangedEventHandler PropertyChanged;
         protected void RaisePropertyChanged([CallerMemberName]string property = "")
@@ -37,36 +39,57 @@ namespace Console.ViewModel
         }
 
         //---------- Commands------------
+ 
+        int Debug_Switch = 0;
 
-        private ICommand _Debug_On_Command;
+        private RelayCommand<int> _Debug_On_Command;
+     
         public ICommand Debug_On_Command {
             get
             {
                 return _Debug_On_Command ??
-                     (_Debug_On_Command = new RelayCommand<int>(Execute_Debug_On_Command, CanExecute_Debug_On_Command));
+                     (_Debug_On_Command = new RelayCommand<int>(Execute_Debug_On_Command, CanExecute_Debug_On_Command) );
             }
         }
 
         private void Execute_Debug_On_Command(int obj)
-        {
+        {   //Recheck for Can Excute
+            Debug_Switch = 1;
+            _Debug_Off_Command.RaiseCanExecuteChanged();
+            _Debug_On_Command.RaiseCanExecuteChanged();
             if (OnlyOnce)
             {
                 dt.Interval = TimeSpan.FromMilliseconds(1000);
                 dt.Tick += GetNewLine;
                 OnlyOnce = false;
-                
             }
-            DataGridBindingList?.Clear();
-
-
+            
             dt.Start();
+            
         }
+        //Check Every Second For UI update...
+     
 
-        private void GetNewLine(object sender, EventArgs e)
+        private async void GetNewLine(object sender, EventArgs e)
         {
+            // Application.Current.Dispatcher.Invoke(CommandManager.InvalidateRequerySuggested);
             MyList?.Clear();
-            MyList = DictonaryImporter.ParameterList(ParameterSelectorVM.ConfigurationStringGenerator());
-             AnyType JustValuesObject = new AnyType();
+        
+            try
+            {
+                MyList = await DictonaryImporter.ParameterList(ParameterSelectorVM.ConfigurationStringGenerator());
+            }
+            catch (Exception)
+            {
+                MyList.Add(new Parameter
+                {
+                    ParamName = "Error",
+                    Value = "Somthing Went Wrong....Make Sure the Device is connected then Press Debug ON again"
+
+                });
+                dt.Stop();
+            }
+           ValuesObjects JustValuesObject = new ValuesObjects();
            for (int i = 0; i < MyList.Count; i++)
            {
                switch (i)
@@ -138,32 +161,37 @@ namespace Console.ViewModel
            }
           
            DataGridBindingList.Add(JustValuesObject);
+            
         }
 
         private bool CanExecute_Debug_On_Command(int arg)
         {
-            return true ;
+            return (Debug_Switch ==0) ;
         }
 
         // Debug_Off Command
-        private ICommand _Debug_Off_Command;
+        private RelayCommand<int> _Debug_Off_Command;
         public ICommand Debug_Off_Command
         {
             get
             {
                 return _Debug_Off_Command ??
-                     (_Debug_On_Command = new RelayCommand<int>(Execute_Debug_Off_Command, CanExecute_Debug_Off_Command));
+                     (_Debug_Off_Command = new RelayCommand<int>(Execute_Debug_Off_Command, CanExecute_Debug_Off_Command));
             }
         }
 
         private void Execute_Debug_Off_Command(int obj)
         {
+            Debug_Switch = 0;
             dt.Stop();
+            _Debug_On_Command.RaiseCanExecuteChanged();
+            _Debug_Off_Command.RaiseCanExecuteChanged();
+            
         }
 
         private bool CanExecute_Debug_Off_Command(int arg)
         {
-            return true;
+            return (Debug_Switch != 0);
         }
     }
 }

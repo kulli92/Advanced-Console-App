@@ -73,13 +73,15 @@ namespace DictionaryHandler
             List<string> ProccessedList = new List<string> { };
             ProccessedList.Add(str[0] + "" + str[1]);
             var SinglPartString = ProccessedList[0];
+           
             int counter = 3;
             int i = 0;
 
+            //59 = ;
             while (counter < str.Length && str[counter - 1] != 59)
             {
-                //as long as it is a decimal number increase the counter
-                while (str[counter - 1] > 47 && str[counter - 1] < 58)
+                //as long as it is a decimal number increase the counter  .=46
+                while (str[counter - 1] > 47 && str[counter - 1] < 58 || str[counter -1] == 46 )
                 {
                     SinglPartString = ProccessedList[i];
                     SinglPartString += str[counter - 1];
@@ -148,7 +150,7 @@ namespace DictionaryHandler
                         }
                         counter++;
                     }
-                    while (str[counter - 1] != 39);
+                while (str[counter - 1] != 39);
                 if (str[counter - 1] == 39)
                 {
                     SinglPartString = ProccessedList[i];
@@ -159,6 +161,8 @@ namespace DictionaryHandler
 
                 #endregion
                 i++;
+                if (str[counter-1] == 59)
+                    break;
                 if (str.Length - counter != 0) //count is standing on a letter take it 
                     //ProccessedList[i] += str[counter-1] + "" + str[counter]; Delete this
                     ProccessedList.Add(str[counter - 1] + "" + str[counter]);
@@ -169,8 +173,6 @@ namespace DictionaryHandler
             }
             return ProccessedList;
         }
-
-     
 
         //------------------------------------------ Assign Value for each key
         private static void ParameterDefiner(List<string> ProccessedList)
@@ -192,14 +194,16 @@ namespace DictionaryHandler
                 ParamDic[temp[0] + "" + temp[1]].Value = "";
                 for (int i = 2; i < temp.Count; i++)
                 {
+                    //Assign The value in the stinrg to value in dictionary 
                     ParamDic[temp[0] + "" + temp[1]].Value += temp[i];
-
                 }
             }
             foreach (var item in TempObjectContainer)
             {
                 temp = item.ToList();
                 ObjectDic[temp[0] + "" + temp[1]].Value = "";
+
+                // i =3 to count -1 
                 for (int i = 2; i < temp.Count; i++)
                 {
                     ObjectDic[temp[0] + "" + temp[1]].Value += temp[i];
@@ -208,7 +212,7 @@ namespace DictionaryHandler
         }
         //------------------------------------------
         private static  ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
-        public static   ObservableCollection<Parameter> ParameterList(string ConfigurationString)
+        public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString)
         {
             string TempString = "";
             //string DeviceResponse = "";
@@ -218,20 +222,20 @@ namespace DictionaryHandler
             {
                 ParameterDicInitilizer();
             }
-            ProccessedList =  StringSplitter(Tunnel.SelectedParameterValueGetter(ConfigurationString));
+            ProccessedList =  StringSplitter( await Tunnel.SelectedParameterValueGetter(ConfigurationString));
+
             foreach (var item in ParamDic)
             {
                 item.Value.Value = "";
             }
             ParameterDefiner(ProccessedList);
-
             foreach (var ParameterKey in ParamDic)
             {
                 if (ParameterKey.Value.Value != "")
                 {
                     TempString = ParameterKey.Value.Value;
                     TempString = new string((from c in TempString
-                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
+                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c ==':'
                                              select c
                                               ).ToArray());
                     ParameterKey.Value.Value = TempString;
@@ -240,12 +244,9 @@ namespace DictionaryHandler
             }
             return FinalList;
         }
-
         private static readonly Random random = new Random();
         private static Random RandomNumber = new Random();
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-
        //Generates Random Values TO send Over serial...
         private static string RandomString(int v)
         {
@@ -257,6 +258,5 @@ namespace DictionaryHandler
             }
             return TempString + ";";
         }
-
     }
 }

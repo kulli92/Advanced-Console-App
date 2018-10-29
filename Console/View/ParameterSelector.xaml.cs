@@ -29,6 +29,7 @@ namespace Console.View
         private void MoveElement(object sender, RoutedEventArgs e)
         {
             TempList.Clear();
+            TempList.Add("Date");
             foreach (var item in FirstList.SelectedItems)
             {
                 TempList.Add(item.ToString());
@@ -38,9 +39,16 @@ namespace Console.View
 
         private void Save_And_Exit(object sender, RoutedEventArgs e)
         {
+            //used in creating new columns header
             ViewModel.ParameterSelectorVM.ConfigurationList = TempList;
+            
             Close();
             
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ViewModel.ViewModelLocator.Mine.DataGridBindingList?.Clear();
         }
     }
 }

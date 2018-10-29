@@ -7,7 +7,9 @@
         xmlns:local="clr-namespace:Console.View"
         mc:Ignorable="d"
         Title="ParameterSelector" Height="450" Width="800"
-        MaxHeight="450" MaxWidth="800">
+        MaxHeight="450" MaxWidth="800"
+        Closing="Window_Closing"
+        >
     <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"></ColumnDefinition>

@@ -27,21 +27,31 @@ namespace DictionaryHandler
                 serialPort.Open();
             }
         }
-        public string SelectedParameterValueGetter(string ConfigurationString)
+       
+        public async Task<string> SelectedParameterValueGetter(string ConfigurationString)
         {
-            
-            serialPort.Write("$" + ConfigurationString);
-            Thread.Sleep(222);
-            string ResponseString = "";
-            ResponseString = serialPort.ReadExisting();
-            while(ResponseString == "")
+            if (!serialPort.IsOpen)
             {
-               
-                ResponseString = serialPort.ReadExisting();
+                serialPort.Open();
             }
+            var counter = 0;
+            serialPort.Write("$" + ConfigurationString);
+            string ResponseString = "";
+            await Task.Delay(500);
+            ResponseString = serialPort.ReadExisting();
+            while  (ResponseString == "")
+            {
+                ResponseString = serialPort.ReadExisting();
+                counter++;
+                if (counter == 5)
+                {
+                    serialPort.Dispose();
+                    return ResponseString = "AA'No Response From the device side';";
+                    
+                }
+            }
+            //Add Check if the string is formated properly;;
             return ResponseString;
-
         }
-
     }
 }

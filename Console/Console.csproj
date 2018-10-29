@@ -79,6 +79,7 @@
     <Compile Include="ViewModel\Console_WindowVM.cs" />
     <Compile Include="ViewModel\LogVM.cs" />
     <Compile Include="ViewModel\ParameterSelectorVM.cs" />
+    <Compile Include="ViewModel\RelayCommandMod.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Console_Window.xaml.cs">
       <DependentUpon>Console_Window.xaml</DependentUpon>

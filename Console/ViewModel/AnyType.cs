@@ -1,6 +1,6 @@
 ﻿namespace Console.ViewModel
 {
-    public class AnyType
+    public class ValuesObjects
     {
         public string Val1 { get; set; }
         public string Val2 { get; set; }

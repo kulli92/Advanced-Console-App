@@ -30,7 +30,7 @@ namespace Console.View
     public partial class Console_Window : Window
 
     {
-        public AnyType ValuesBuffer { get; set; } = new AnyType();
+        public ValuesObjects ValuesBuffer { get; set; } = new ValuesObjects();
         public static bool Debug_On { get; private set; } = false;
 
         public Console_Window()
@@ -44,6 +44,7 @@ namespace Console.View
         private void UpdateEverySecond(object sender, EventArgs e)
         {
             DG.ScrollIntoView(DG.Items.GetItemAt(DG.Items.Count - 1));
+           
         }
 
         private void Open_Parameter_Selector(object sender, RoutedEventArgs e)
@@ -79,10 +80,11 @@ namespace Console.View
     }
     }
     */
-        
 
-        private void Window_Activated(object sender, EventArgs e)
+        public void ParameterWindowHasBeenClosed()
         {
+           
+
             //Delete all previous Columns
             while (DG.Columns.Count > 0)
             {
@@ -161,6 +163,11 @@ namespace Console.View
                 DG.Columns.Add(TempCol);
 
             }
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            ParameterWindowHasBeenClosed();
         }
     }
 }

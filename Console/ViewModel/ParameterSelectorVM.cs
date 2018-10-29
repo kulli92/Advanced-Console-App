@@ -24,6 +24,7 @@ namespace Console.ViewModel
         } 
         public static string ConfigurationStringGenerator()
         {
+
             string KiesString = "";
             foreach (var item in ConfigurationList)
             {
