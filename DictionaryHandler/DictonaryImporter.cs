@@ -12,8 +12,8 @@ namespace DictionaryHandler
 {
     public class DictonaryImporter
     {
-        public static  string UserString { get; set; } = "AA[32423]Ad34345BJ'THisisEspartea'AC<Ab43Bw33>Bc3994345Cg[8234]AI21AZ99";
-        static Dictionary<string, Parameter> ParamDic = new Dictionary<string, Parameter> { };
+        public static Dictionary<string, Parameter> ParamDic = new Dictionary<string, Parameter> { };
+        public static Dictionary<string, Parameter> ParamObjectRelatedDic = new Dictionary<string, Parameter> { };
         static Dictionary<string, ParameterObject> ObjectDic = new Dictionary<string, ParameterObject> { };
        // readonly string data;
         static public bool DictionaryHasBeenInitilized { get; set; } = false;
@@ -35,6 +35,15 @@ namespace DictionaryHandler
                     MinValue = sheet.Cells["C" + i].Value.ToString(),
                     MaxValue = sheet.Cells["D" + i].Value.ToString(),
                 });
+               ParamObjectRelatedDic.Add(sheet.Cells["A" + i].Value.ToString(),
+               new Parameter()
+               {
+                   ParamName = sheet.Cells["B" + i].Value.ToString(),
+                   Index = Convert.ToInt16(sheet.Cells["G" + i].Value.ToString()),
+                   MemoryAddress = sheet.Cells["F" + i].Value.ToString(),
+                   MinValue = sheet.Cells["C" + i].Value.ToString(),
+                   MaxValue = sheet.Cells["D" + i].Value.ToString(),
+               });
             }
             var package2 = new ExcelPackage(new FileInfo(@"C:\Users\Aklli\Desktop\Object Dic.xlsx"));
             ExcelWorksheet sheet2 = package2.Workbook.Worksheets[1];
@@ -60,21 +69,6 @@ namespace DictionaryHandler
             {
                 ParameterDicInitilizer();
                 return ParamDic;
-            }
-        }
-        //------------------------------------------
-        //------------------------------------------
-        public static Dictionary<string, ParameterObject> RowObjectDictionaryProvider()
-        {
-            if (DictionaryHasBeenInitilized)
-            {
-
-                return ObjectDic;
-            }
-            else
-            {
-                ParameterDicInitilizer();
-                return ObjectDic;
             }
         }
         //------------------------------------------
@@ -221,20 +215,17 @@ namespace DictionaryHandler
                 // i =3 to count -1 
                 for (int i = 2; i < temp.Count; i++)
                 {
-                    ObjectDic[temp[0] + "" + temp[1]].Value += temp[i];
+                    +[temp[0] + "" + temp[1]].Value += temp[i];
                 }
             }
         }
         //------------------------------------------
         private static  ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
-        private static  ObservableCollection<ParameterObject> FinalObjectList= new ObservableCollection<ParameterObject> { };
-
         public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString)
         {
             string TempString = "";
             //string DeviceResponse = "";
-            FinalList?.Clear();
-            FinalObjectList?.Clear();
+            FinalList.Clear();
             List<string> ProccessedList = new List<string> { };
             if (DictionaryHasBeenInitilized == false)
             {
@@ -247,23 +238,6 @@ namespace DictionaryHandler
                 item.Value.Value = "";
             }
             ParameterDefiner(ProccessedList);
-            foreach (var ObjectParameter in ObjectDic)
-            {
-                if(ObjectParameter.Value.Value != "")
-                {
-                    TempString = ObjectParameter.Value.Value;
-                    TempString = new string((from c in TempString
-                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':'
-                                             select c
-                                              ).ToArray());
-                    ObjectParameter.Value.Value = TempString;
-                    // Decompose all objects to its parameterss
-                    ParameterDefiner(StringSplitter(TempString));
-                    FinalObjectList.Add(ObjectParameter.Value);
-                }
-
-            }
-
             foreach (var ParameterKey in ParamDic)
             {
                 if (ParameterKey.Value.Value != "")
@@ -279,19 +253,7 @@ namespace DictionaryHandler
             }
             return FinalList;
         }
-        private static readonly Random random = new Random();
-        private static Random RandomNumber = new Random();
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-       //Generates Random Values TO send Over serial...
-        private static string RandomString(int v)
-        {
-            var TempString = "";
-            for (int i = 0; i < v; i++)
-            {
-                TempString += "A" + chars[i];
-                TempString += RandomNumber.Next(1, 99);
-            }
-            return TempString + ";";
-        }
+     
+     
     }
 }
