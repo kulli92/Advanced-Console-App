@@ -10,5 +10,7 @@ namespace Console.ViewModel
     {
         public static Console_WindowVM Mine { get; } = new Console_WindowVM();
         public static ParameterSelectorVM ParameterSelectorViewModel { get; } = new ParameterSelectorVM();
+        public static StartUp_Report_FormatterVM StartUpReportViewModel { get; } = new StartUp_Report_FormatterVM();
+
     }
 }

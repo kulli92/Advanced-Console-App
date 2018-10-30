@@ -80,6 +80,7 @@
     <Compile Include="ViewModel\LogVM.cs" />
     <Compile Include="ViewModel\ParameterSelectorVM.cs" />
     <Compile Include="ViewModel\RelayCommandMod.cs" />
+    <Compile Include="ViewModel\StartUp_Report_FormatterVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Console_Window.xaml.cs">
       <DependentUpon>Console_Window.xaml</DependentUpon>
@@ -92,6 +93,9 @@
     </Compile>
     <Compile Include="View\SerialPort.xaml.cs">
       <DependentUpon>SerialPort.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StartUp_Report_Formatter.xaml.cs">
+      <DependentUpon>StartUp_Report_Formatter.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +142,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SerialPort.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StartUp_Report_Formatter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

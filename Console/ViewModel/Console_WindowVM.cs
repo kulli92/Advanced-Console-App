@@ -19,7 +19,18 @@ namespace Console.ViewModel
   public class Console_WindowVM :INotifyPropertyChanged
     {
         public ObservableCollection<Parameter> MyList { get; set; } = new ObservableCollection<Parameter>() { };
-        
+        public ObservableCollection<Parameter> MyList2 { get; set; } = new ObservableCollection<Parameter>() { };
+        public string StartUpReportString
+        {
+            get { return _StartUp; }
+            set
+            {
+                _StartUp = value;
+                RaisePropertyChanged();
+            }
+
+        }
+
         public ObservableCollection<ValuesObjects> DataGridBindingList { get; set; } = new ObservableCollection<ValuesObjects>() { };
         public static bool Debug_ON { get; set; } = true;
         DispatcherTimer dt = new DispatcherTimer();
@@ -78,6 +89,7 @@ namespace Console.ViewModel
             try
             {
                 MyList = await DictonaryImporter.ParameterList(ParameterSelectorVM.ConfigurationStringGenerator());
+                MyList2 =  await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator());
             }
             catch (Exception)
             {
@@ -87,8 +99,21 @@ namespace Console.ViewModel
                     Value = "Somthing Went Wrong....Make Sure the Device is connected then Press Debug ON again"
 
                 });
+                MyList2.Add(new Parameter
+                {
+                    ParamName = "Error",
+                    Value = "Somthing Went Wrong....Make Sure the Device is connected then Press Debug ON again"
+
+                });
                 dt.Stop();
             }
+            StartUpReportString = "";
+            foreach (var item in MyList2)
+            {
+                
+                StartUpReportString += item.ParamName + "    " + item.Value + "\n";
+            }
+            
            ValuesObjects JustValuesObject = new ValuesObjects();
            for (int i = 0; i < MyList.Count; i++)
            {
@@ -171,6 +196,8 @@ namespace Console.ViewModel
 
         // Debug_Off Command
         private RelayCommand<int> _Debug_Off_Command;
+        private string _StartUp;
+
         public ICommand Debug_Off_Command
         {
             get

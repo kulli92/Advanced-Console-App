@@ -63,6 +63,21 @@ namespace DictionaryHandler
             }
         }
         //------------------------------------------
+        //------------------------------------------
+        public static Dictionary<string, ParameterObject> RowObjectDictionaryProvider()
+        {
+            if (DictionaryHasBeenInitilized)
+            {
+
+                return ObjectDic;
+            }
+            else
+            {
+                ParameterDicInitilizer();
+                return ObjectDic;
+            }
+        }
+        //------------------------------------------
         private static List<string> StringSplitter(string str)
         {
             if (str == "")
@@ -212,11 +227,14 @@ namespace DictionaryHandler
         }
         //------------------------------------------
         private static  ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
+        private static  ObservableCollection<ParameterObject> FinalObjectList= new ObservableCollection<ParameterObject> { };
+
         public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString)
         {
             string TempString = "";
             //string DeviceResponse = "";
-            FinalList.Clear();
+            FinalList?.Clear();
+            FinalObjectList?.Clear();
             List<string> ProccessedList = new List<string> { };
             if (DictionaryHasBeenInitilized == false)
             {
@@ -229,6 +247,23 @@ namespace DictionaryHandler
                 item.Value.Value = "";
             }
             ParameterDefiner(ProccessedList);
+            foreach (var ObjectParameter in ObjectDic)
+            {
+                if(ObjectParameter.Value.Value != "")
+                {
+                    TempString = ObjectParameter.Value.Value;
+                    TempString = new string((from c in TempString
+                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':'
+                                             select c
+                                              ).ToArray());
+                    ObjectParameter.Value.Value = TempString;
+                    // Decompose all objects to its parameterss
+                    ParameterDefiner(StringSplitter(TempString));
+                    FinalObjectList.Add(ObjectParameter.Value);
+                }
+
+            }
+
             foreach (var ParameterKey in ParamDic)
             {
                 if (ParameterKey.Value.Value != "")

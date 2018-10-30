@@ -23,23 +23,33 @@
             <ColumnDefinition></ColumnDefinition>
 
         </Grid.ColumnDefinitions>
-        <Border BorderBrush="Black"  
-                Background="White" 
-                BorderThickness="1" 
-                CornerRadius="5" 
-                Margin="11,11,11,11">
+        <TabControl>
+            <TabItem Header="Live" FontSize="14">
+                <Border BorderBrush="Black"  
+                        Background="White" 
+                        BorderThickness="1" 
+                        CornerRadius="5" 
+                        Margin="11,11,11,11">   
+                    <DataGrid
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" 
+                        ItemsSource="{Binding DataGridBindingList}"
+                        Name="DG" 
+                        AutoGenerateColumns="False"
+                        AlternatingRowBackground="LightBlue">
+                        
+                    </DataGrid>
 
-            <DataGrid
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" 
-                ItemsSource="{Binding DataGridBindingList}"
-                Name="DG" 
-                AutoGenerateColumns="False"
-                AlternatingRowBackground="LightBlue"
-                >
-            </DataGrid>
-
-        </Border >
+                </Border >
+            </TabItem>
+            <TabItem Header="Startup Report">
+                <Border BorderBrush="Black">
+                    <TextBlock Background="White" x:Name="StartUpTxtArea" Text="{Binding StartUpReportString}"></TextBlock>
+                </Border>
+             
+            </TabItem>
+        </TabControl>
+       
 
         <Grid Grid.Row="1" Margin="0,0,0,22" >
             <Grid.RowDefinitions>
@@ -67,7 +77,11 @@
                 </ContentControl>
             </GroupBox>
             <Button Grid.Row="1" Grid.Column="1" Content="Parameter Selector" IsEnabled="{Binding ElementName=Debug_Oo, Path=IsEnabled}"
-                    Margin="11,11,11,11" Click="Open_Parameter_Selector" >
+                    Margin="11,11,11,11" Click="Open_Parameter_Selector" Width="200" HorizontalAlignment="Left" >
+
+            </Button>
+            <Button Grid.Row="1" Grid.Column="1" Content="StartUp Report Formatter" IsEnabled="{Binding ElementName=Debug_Oo, Path=IsEnabled}"
+                    Margin="11,11,11,11"  Width="200" HorizontalAlignment="Right" Click="Open_Formatter" >
 
             </Button>
             <Button Grid.Row="0" Grid.Column="1" Content="Debug_On" x:Name="Debug_Oo"

@@ -169,6 +169,12 @@ namespace Console.View
         {
             ParameterWindowHasBeenClosed();
         }
+
+        private void Open_Formatter(object sender, RoutedEventArgs e)
+        {
+            var FormatterWindow = new StartUp_Report_Formatter();
+            FormatterWindow.Show();
+        }
     }
 }
 

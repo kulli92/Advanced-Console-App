@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DictionaryHandler
 {
-    class ParameterObject
+    public class ParameterObject
     {
         public string Name { get; set; }
         public string MemoryAddress { get; set; }

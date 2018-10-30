@@ -8,32 +8,34 @@ using System.Threading.Tasks;
 
 namespace Console.ViewModel
 {
-   public class ParameterSelectorVM
+    class StartUp_Report_FormatterVM
     {
-        public static Dictionary<string, Parameter> RowDictionary { get; set; }
+        public static Dictionary<string, ParameterObject> RowDictionary { get; set; }
         public List<string> NamesList { get; set; } = new List<string> { };
         public static ObservableCollection<string> ConfigurationList { get; set; } = new ObservableCollection<string>() { };
 
-        public ParameterSelectorVM()
+        public StartUp_Report_FormatterVM()
         {
-            RowDictionary = DictonaryImporter.RowDictionaryProvider();
+            RowDictionary = DictonaryImporter.RowObjectDictionaryProvider();
             foreach (var item in RowDictionary)
             {
-                NamesList.Add(item.Value.ParamName);
+                NamesList.Add(item.Value.Name);
             }
-        } 
+
+        }
         public static string ConfigurationStringGenerator()
         {
-            string KiesString = "";
+            string ObjectString = "";
             foreach (var item in ConfigurationList)
             {
-                var MyKey = RowDictionary.First(x => x.Value.ParamName == item).Key;
-                KiesString += MyKey;
+                var MyValue = RowDictionary.First(x => x.Value.Name == item).Value.Value;
+                ObjectString += MyValue;
+                
             };
-            return KiesString;
+
+            return "GQGRGSGTGUGVGWGgGhGiGj";
 
         }
 
-       
     }
 }
