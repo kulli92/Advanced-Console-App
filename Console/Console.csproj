@@ -79,7 +79,6 @@
     <Compile Include="ViewModel\Console_WindowVM.cs" />
     <Compile Include="ViewModel\LogVM.cs" />
     <Compile Include="ViewModel\ParameterSelectorVM.cs" />
-    <Compile Include="ViewModel\RelayCommandMod.cs" />
     <Compile Include="ViewModel\StartUp_Report_FormatterVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Console_Window.xaml.cs">
