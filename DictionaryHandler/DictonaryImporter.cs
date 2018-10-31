@@ -71,6 +71,20 @@ namespace DictionaryHandler
                 return ParamDic;
             }
         }
+
+        //----------------------
+        public static Dictionary<string,ParameterObject> RowObjectDictionaryProvider ()
+        {
+                 if (DictionaryHasBeenInitilized)
+            {
+                return ObjectDic;
+            }
+            else
+            {
+                ParameterDicInitilizer();
+                return ObjectDic;
+            }
+        }
         //------------------------------------------
         private static List<string> StringSplitter(string str)
         {
@@ -209,18 +223,26 @@ namespace DictionaryHandler
             }
             foreach (var item in TempObjectContainer)
             {
-                temp = item.ToList();
-                ObjectDic[temp[0] + "" + temp[1]].Value = "";
-
-                // i =3 to count -1 
-                for (int i = 2; i < temp.Count; i++)
+                List<string> TempList = new List<string>() { };
+                //here we have AA<Gg345Gi834>
+                //first send all inside <> to split
+                TempList =  StringSplitter(item.Substring(3, (item.Count() - 4)));
+                foreach (var InnerItem in TempList)
                 {
-                    +[temp[0] + "" + temp[1]].Value += temp[i];
+                    temp = InnerItem.ToList();
+                    ParamObjectRelatedDic[temp[0] + "" + temp[1]].Value = "";
+                    for (int i = 2; i < temp.Count; i++)
+                    {
+                        //Assign The value in the stinrg to value in dictionary 
+                        ParamObjectRelatedDic[temp[0] + "" + temp[1]].Value += temp[i];
+                    }
                 }
+              
             }
         }
         //------------------------------------------
         private static  ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
+        public static  ObservableCollection<Parameter> FinalObjectList = new ObservableCollection<Parameter> { };
         public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString)
         {
             string TempString = "";
@@ -249,6 +271,19 @@ namespace DictionaryHandler
                                               ).ToArray());
                     ParameterKey.Value.Value = TempString;
                     FinalList.Add(ParameterKey.Value);
+                }
+            }
+            foreach (var ParameterKey in ParamObjectRelatedDic)
+            {
+                if (ParameterKey.Value.Value != "")
+                {
+                    TempString = ParameterKey.Value.Value;
+                    TempString = new string((from c in TempString
+                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':'
+                                             select c
+                                              ).ToArray());
+                    ParameterKey.Value.Value = TempString;
+                    FinalObjectList.Add(ParameterKey.Value);
                 }
             }
             return FinalList;

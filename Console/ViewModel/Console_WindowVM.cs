@@ -19,7 +19,7 @@ namespace Console.ViewModel
   public class Console_WindowVM :INotifyPropertyChanged
     {
         public ObservableCollection<Parameter> MyList { get; set; } = new ObservableCollection<Parameter>() { };
-        public ObservableCollection<Parameter> MyList2 { get; set; } = new ObservableCollection<Parameter>() { };
+        public ObservableCollection<Parameter> MyListOfObjects { get; set; } = new ObservableCollection<Parameter>() { };
         public string StartUpReportString
         {
             get { return _StartUp; }
@@ -85,11 +85,13 @@ namespace Console.ViewModel
         {
             // Application.Current.Dispatcher.Invoke(CommandManager.InvalidateRequerySuggested);
             MyList?.Clear();
+            MyListOfObjects?.Clear();
         
             try
             {
-                MyList = await DictonaryImporter.ParameterList(ParameterSelectorVM.ConfigurationStringGenerator());
-                MyList2 =  await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator());
+                //Sending Complete String to the Handler
+                MyList = await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator() +""+ ParameterSelectorVM.ConfigurationStringGenerator());
+                MyListOfObjects =   DictonaryImporter.FinalObjectList;
             }
             catch (Exception)
             {
@@ -99,21 +101,18 @@ namespace Console.ViewModel
                     Value = "Somthing Went Wrong....Make Sure the Device is connected then Press Debug ON again"
 
                 });
-                MyList2.Add(new Parameter
+                MyListOfObjects.Add(new Parameter
                 {
                     ParamName = "Error",
                     Value = "Somthing Went Wrong....Make Sure the Device is connected then Press Debug ON again"
-
                 });
                 dt.Stop();
             }
             StartUpReportString = "";
-            foreach (var item in MyList2)
+            foreach (var item in MyListOfObjects)
             {
-                
                 StartUpReportString += item.ParamName + "    " + item.Value + "\n";
             }
-            
            ValuesObjects JustValuesObject = new ValuesObjects();
            for (int i = 0; i < MyList.Count; i++)
            {

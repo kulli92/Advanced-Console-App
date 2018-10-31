@@ -33,7 +33,7 @@ namespace Console.ViewModel
                 
             };
 
-            return "GQGRGSGTGUGVGWGgGhGiGj";
+            return "AC<GQGRGSGTGUGVGWGgGhGiGj>";
 
         }
 
