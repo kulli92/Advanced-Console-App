@@ -20,6 +20,7 @@ namespace Console.ViewModel
     {
         public ObservableCollection<Parameter> MyList { get; set; } = new ObservableCollection<Parameter>() { };
         public ObservableCollection<Parameter> MyList2 { get; set; } = new ObservableCollection<Parameter>() { };
+        public ObservableCollection<ParameterObject> ListOfCommingObj { get; set; } = new ObservableCollection<ParameterObject>() { };
         public string StartUpReportString
         {
             get { return _StartUp; }
@@ -64,7 +65,11 @@ namespace Console.ViewModel
         }
 
         private void Execute_Debug_On_Command(int obj)
-        {   //Recheck for Can Excute
+        {
+            ListOfCommingObj = DictonaryImporter.FinalListOfObjects;
+
+
+            //Recheck for Can Excute
             Debug_Switch = 1;
             _Debug_Off_Command.RaiseCanExecuteChanged();
             _Debug_On_Command.RaiseCanExecuteChanged();
@@ -89,7 +94,7 @@ namespace Console.ViewModel
             try
             {
                 MyList = await DictonaryImporter.ParameterList(ParameterSelectorVM.ConfigurationStringGenerator());
-                MyList2 =  await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator());
+                //MyList2 =  await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator());
             }
             catch (Exception)
             {
@@ -108,11 +113,11 @@ namespace Console.ViewModel
                 dt.Stop();
             }
             StartUpReportString = "";
-            foreach (var item in MyList2)
+           /* foreach (var item in MyList2)
             {
                 
                 StartUpReportString += item.ParamName + "    " + item.Value + "\n";
-            }
+            }*/
             
            ValuesObjects JustValuesObject = new ValuesObjects();
            for (int i = 0; i < MyList.Count; i++)

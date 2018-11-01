@@ -12,10 +12,10 @@ namespace DictionaryHandler
 {
     public class DictonaryImporter
     {
-        public static  string UserString { get; set; } = "AA[32423]Ad34345BJ'THisisEspartea'AC<Ab43Bw33>Bc3994345Cg[8234]AI21AZ99";
-        static Dictionary<string, Parameter> ParamDic = new Dictionary<string, Parameter> { };
+        public static Dictionary<string, Parameter> ParamDic = new Dictionary<string, Parameter> { };
+        public static Dictionary<string, Parameter> ParamObjectRelatedDic = new Dictionary<string, Parameter> { };
         static Dictionary<string, ParameterObject> ObjectDic = new Dictionary<string, ParameterObject> { };
-       // readonly string data;
+        // readonly string data;
         static public bool DictionaryHasBeenInitilized { get; set; } = false;
         public static SerialCommunicationTunnel Tunnel { get; set; } = new SerialCommunicationTunnel();
         //------------------------------------------
@@ -27,6 +27,15 @@ namespace DictionaryHandler
             for (int i = 1; i < 419; i++)
             {
                 ParamDic.Add(sheet.Cells["A" + i].Value.ToString(),
+                new Parameter()
+                {
+                    ParamName = sheet.Cells["B" + i].Value.ToString(),
+                    Index = Convert.ToInt16(sheet.Cells["G" + i].Value.ToString()),
+                    MemoryAddress = sheet.Cells["F" + i].Value.ToString(),
+                    MinValue = sheet.Cells["C" + i].Value.ToString(),
+                    MaxValue = sheet.Cells["D" + i].Value.ToString(),
+                });
+                ParamObjectRelatedDic.Add(sheet.Cells["A" + i].Value.ToString(),
                 new Parameter()
                 {
                     ParamName = sheet.Cells["B" + i].Value.ToString(),
@@ -50,7 +59,7 @@ namespace DictionaryHandler
             }
         }
         //------------------------------------------
-        public static Dictionary<string,Parameter> RowDictionaryProvider()
+        public static Dictionary<string, Parameter> RowDictionaryProvider()
         {
             if (DictionaryHasBeenInitilized)
             {
@@ -62,13 +71,11 @@ namespace DictionaryHandler
                 return ParamDic;
             }
         }
-        //------------------------------------------
-        //------------------------------------------
+        //----------------------
         public static Dictionary<string, ParameterObject> RowObjectDictionaryProvider()
         {
             if (DictionaryHasBeenInitilized)
             {
-
                 return ObjectDic;
             }
             else
@@ -78,25 +85,76 @@ namespace DictionaryHandler
             }
         }
         //------------------------------------------
+        private static ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
+        public static ObservableCollection<ParameterObject> FinalListOfObjects = new ObservableCollection<ParameterObject> { };
+        public static ObservableCollection<Parameter> FinalContainedParameter = new ObservableCollection<Parameter> { };
+        public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString)
+        {
+            string TempString = "";
+            //string DeviceResponse = ""; 
+            FinalList.Clear();
+            FinalListOfObjects?.Clear();
+            List<string> ProccessedList = new List<string> { };
+            if (DictionaryHasBeenInitilized == false)
+            {
+                ParameterDicInitilizer();
+            }
+            ProccessedList = StringSplitter(await Tunnel.SelectedParameterValueGetter(ConfigurationString));
+            foreach (var item in ParamDic)
+            {
+                item.Value.Value = "";
+            }
+            ParameterDefiner(ProccessedList);
+            foreach (var ParameterKey in ParamDic)
+            {
+                if (ParameterKey.Value.Value != "")
+                {
+                    TempString = ParameterKey.Value.Value;
+                    TempString = new string((from c in TempString
+                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':' || c == ','
+                                             select c
+                                              ).ToArray());
+                    ParameterKey.Value.Value = TempString;
+                    FinalList.Add(ParameterKey.Value);
+                }
+            }
+            foreach (var ParameterKey in ParamObjectRelatedDic)
+            {
+                if (ParameterKey.Value.Value != "")
+                {
+                    TempString = ParameterKey.Value.Value;
+                    TempString = new string((from c in TempString
+                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':' || c == ','
+                                             select c
+                                              ).ToArray());
+                    ParameterKey.Value.Value = TempString;
+                    FinalContainedParameter.Add(ParameterKey.Value);
+                }
+            }
+            return FinalList;
+        }
+        //----------------------------------- String Splitter_________
+
+        #region 
         private static List<string> StringSplitter(string str)
         {
             if (str == "")
             {
                 throw new NotImplementedException();
             }
-         
+
             List<string> ProccessedList = new List<string> { };
             ProccessedList.Add(str[0] + "" + str[1]);
             var SinglPartString = ProccessedList[0];
-           
+
             int counter = 3;
             int i = 0;
 
             //59 = ;
             while (counter < str.Length && str[counter - 1] != 59)
             {
-                //as long as it is a decimal number increase the counter  .=46
-                while (str[counter - 1] > 47 && str[counter - 1] < 58 || str[counter -1] == 46 )
+                //as long as it is a decimal number increase the counter  .=46  ,=44
+                while (str[counter - 1] > 47 && str[counter - 1] < 58 || str[counter - 1] == 46 || str[counter - 1] == 44)
                 {
                     SinglPartString = ProccessedList[i];
                     SinglPartString += str[counter - 1];
@@ -165,7 +223,7 @@ namespace DictionaryHandler
                         }
                         counter++;
                     }
-                while (str[counter - 1] != 39);
+                    while (str[counter - 1] != 39);
                 if (str[counter - 1] == 39)
                 {
                     SinglPartString = ProccessedList[i];
@@ -176,7 +234,7 @@ namespace DictionaryHandler
 
                 #endregion
                 i++;
-                if (str[counter-1] == 59)
+                if (str[counter - 1] == 59)
                     break;
                 if (str.Length - counter != 0) //count is standing on a letter take it 
                     //ProccessedList[i] += str[counter-1] + "" + str[counter]; Delete this
@@ -188,8 +246,9 @@ namespace DictionaryHandler
             }
             return ProccessedList;
         }
+        #endregion
 
-        //------------------------------------------ Assign Value for each key
+        //------------------------------------------ Assign Value for each key__________________
         private static void ParameterDefiner(List<string> ProccessedList)
         {
             List<string> TempObjectContainer = new List<string> { };
@@ -215,83 +274,36 @@ namespace DictionaryHandler
             }
             foreach (var item in TempObjectContainer)
             {
-                temp = item.ToList();
-                ObjectDic[temp[0] + "" + temp[1]].Value = "";
-
-                // i =3 to count -1 
-                for (int i = 2; i < temp.Count; i++)
+                List<string> TempList = new List<string>() { };
+                //here we have AA<Gg345Gi834>
+                
+                //first send all inside <> to split
+             
+                TempList = StringSplitter(item.Substring(3, (item.Count() - 4)));
+                foreach (var InnerItem in TempList)
                 {
-                    ObjectDic[temp[0] + "" + temp[1]].Value += temp[i];
+                    temp = InnerItem.ToList();
+                    ParamObjectRelatedDic[temp[0] + "" + temp[1]].Value = "";
+                    for (int i = 2; i < temp.Count; i++)
+                    {
+                        //Assign The value in the stinrg to value in dictionary 
+                        ParamObjectRelatedDic[temp[0] + "" + temp[1]].Value += temp[i];
+                    }
                 }
+                var TempListForContainedParameter = new ObservableCollection<Parameter>() { };
+                foreach (var ContainedParam in ParamObjectRelatedDic)
+                {
+                    if (ContainedParam.Value.Value != "")
+                    { 
+                        TempListForContainedParameter.Add(ContainedParam.Value);
+                    }
+                }
+
+                ObjectDic[item[0] + "" + item[1]].ContainedParams = TempListForContainedParameter;
+                FinalListOfObjects.Add(ObjectDic[item[0] + "" + item[1]]);
+             
             }
         }
         //------------------------------------------
-        private static  ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
-        private static  ObservableCollection<ParameterObject> FinalObjectList= new ObservableCollection<ParameterObject> { };
-
-        public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString)
-        {
-            string TempString = "";
-            //string DeviceResponse = "";
-            FinalList?.Clear();
-            FinalObjectList?.Clear();
-            List<string> ProccessedList = new List<string> { };
-            if (DictionaryHasBeenInitilized == false)
-            {
-                ParameterDicInitilizer();
-            }
-            ProccessedList =  StringSplitter( await Tunnel.SelectedParameterValueGetter(ConfigurationString));
-
-            foreach (var item in ParamDic)
-            {
-                item.Value.Value = "";
-            }
-            ParameterDefiner(ProccessedList);
-            foreach (var ObjectParameter in ObjectDic)
-            {
-                if(ObjectParameter.Value.Value != "")
-                {
-                    TempString = ObjectParameter.Value.Value;
-                    TempString = new string((from c in TempString
-                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':'
-                                             select c
-                                              ).ToArray());
-                    ObjectParameter.Value.Value = TempString;
-                    // Decompose all objects to its parameterss
-                    ParameterDefiner(StringSplitter(TempString));
-                    FinalObjectList.Add(ObjectParameter.Value);
-                }
-
-            }
-
-            foreach (var ParameterKey in ParamDic)
-            {
-                if (ParameterKey.Value.Value != "")
-                {
-                    TempString = ParameterKey.Value.Value;
-                    TempString = new string((from c in TempString
-                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c ==':'
-                                             select c
-                                              ).ToArray());
-                    ParameterKey.Value.Value = TempString;
-                    FinalList.Add(ParameterKey.Value);
-                }
-            }
-            return FinalList;
-        }
-        private static readonly Random random = new Random();
-        private static Random RandomNumber = new Random();
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-       //Generates Random Values TO send Over serial...
-        private static string RandomString(int v)
-        {
-            var TempString = "";
-            for (int i = 0; i < v; i++)
-            {
-                TempString += "A" + chars[i];
-                TempString += RandomNumber.Next(1, 99);
-            }
-            return TempString + ";";
-        }
     }
 }

@@ -44,7 +44,35 @@
             </TabItem>
             <TabItem Header="Startup Report">
                 <Border BorderBrush="Black">
-                    <TextBlock Background="White" x:Name="StartUpTxtArea" Text="{Binding StartUpReportString}"></TextBlock>
+                    <ListBox ItemsSource="{Binding ListOfCommingObj}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                        <ColumnDefinition Width="400"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Text="{Binding Name}"></TextBox>
+                                    <TextBox Grid.Column="1" Text="{Binding MemoryAddress}"></TextBox>
+                                    <ListBox Grid.Column="2" ItemsPanel="{Binding ContainedParams}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Text="{Binding ParamName}"></TextBox>
+                                                    <TextBox Grid.Column="1" Text="{Binding Value}"></TextBox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Border>
              
             </TabItem>
