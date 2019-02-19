@@ -77,7 +77,6 @@
     <Compile Include="Parameter.cs" />
     <Compile Include="ViewModel\AnyType.cs" />
     <Compile Include="ViewModel\Console_WindowVM.cs" />
-    <Compile Include="ViewModel\LogVM.cs" />
     <Compile Include="ViewModel\ParameterSelectorVM.cs" />
     <Compile Include="ViewModel\StartUp_Report_FormatterVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

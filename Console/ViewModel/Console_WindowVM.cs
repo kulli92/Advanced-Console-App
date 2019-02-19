@@ -29,9 +29,7 @@ namespace Console.ViewModel
                 _StartUp = value;
                 RaisePropertyChanged();
             }
-
         }
-
         public ObservableCollection<ValuesObjects> DataGridBindingList { get; set; } = new ObservableCollection<ValuesObjects>() { };
         public static bool Debug_ON { get; set; } = true;
         DispatcherTimer dt = new DispatcherTimer();
@@ -45,17 +43,14 @@ namespace Console.ViewModel
 
         public Console_WindowVM()
         {
-           // MyList = new ObservableCollection<Parameter>() { };
-         //   MyList = DictonaryImporter.ParameterList();
-            //GetNewLine(new object(), new EventArgs());
+         // MyList = new ObservableCollection<Parameter>() { };
+         // MyList = DictonaryImporter.ParameterList();
+         //GetNewLine(new object(), new EventArgs());
         }
-
         //---------- Commands------------
  
         int Debug_Switch = 0;
-
         private RelayCommand<int> _Debug_On_Command;
-     
         public ICommand Debug_On_Command {
             get
             {
@@ -63,7 +58,6 @@ namespace Console.ViewModel
                      (_Debug_On_Command = new RelayCommand<int>(Execute_Debug_On_Command, CanExecute_Debug_On_Command) );
             }
         }
-
         private void Execute_Debug_On_Command(int obj)
         {
             ListOfCommingObj = DictonaryImporter.FinalListOfObjects;
@@ -75,25 +69,20 @@ namespace Console.ViewModel
             _Debug_On_Command.RaiseCanExecuteChanged();
             if (OnlyOnce)
             {
-                dt.Interval = TimeSpan.FromMilliseconds(1000);
+                dt.Interval = TimeSpan.FromMilliseconds(1100);
                 dt.Tick += GetNewLine;
                 OnlyOnce = false;
             }
-            
             dt.Start();
-            
         }
         //Check Every Second For UI update...
-     
-
         private async void GetNewLine(object sender, EventArgs e)
         {
             // Application.Current.Dispatcher.Invoke(CommandManager.InvalidateRequerySuggested);
             MyList?.Clear();
-        
             try
             {
-                MyList = await DictonaryImporter.ParameterList(ParameterSelectorVM.ConfigurationStringGenerator());
+                MyList = await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator() +""+ ParameterSelectorVM.ConfigurationStringGenerator());
                 //MyList2 =  await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator());
             }
             catch (Exception)
@@ -118,7 +107,6 @@ namespace Console.ViewModel
                 
                 StartUpReportString += item.ParamName + "    " + item.Value + "\n";
             }*/
-            
            ValuesObjects JustValuesObject = new ValuesObjects();
            for (int i = 0; i < MyList.Count; i++)
            {
@@ -189,11 +177,9 @@ namespace Console.ViewModel
                        break;
                }
            }
-          
            DataGridBindingList.Add(JustValuesObject);
             
         }
-
         private bool CanExecute_Debug_On_Command(int arg)
         {
             return (Debug_Switch ==0) ;
@@ -211,16 +197,13 @@ namespace Console.ViewModel
                      (_Debug_Off_Command = new RelayCommand<int>(Execute_Debug_Off_Command, CanExecute_Debug_Off_Command));
             }
         }
-
         private void Execute_Debug_Off_Command(int obj)
         {
             Debug_Switch = 0;
             dt.Stop();
             _Debug_On_Command.RaiseCanExecuteChanged();
             _Debug_Off_Command.RaiseCanExecuteChanged();
-            
         }
-
         private bool CanExecute_Debug_Off_Command(int arg)
         {
             return (Debug_Switch != 0);

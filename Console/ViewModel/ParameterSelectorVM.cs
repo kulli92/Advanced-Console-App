@@ -29,11 +29,16 @@ namespace Console.ViewModel
             {
                 var MyKey = RowDictionary.First(x => x.Value.ParamName == item).Key;
                 KiesString += MyKey;
+                if (ConfigurationList.IndexOf(item) == ConfigurationList.Count - 1)
+                {
+                    KiesString += ";";
+                }
+                else
+                    KiesString += "|";
             };
             return KiesString;
 
         }
 
-       
     }
 }

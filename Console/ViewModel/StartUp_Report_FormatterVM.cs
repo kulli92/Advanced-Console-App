@@ -21,7 +21,6 @@ namespace Console.ViewModel
             {
                 NamesList.Add(item.Value.Name);
             }
-
         }
         public static string ConfigurationStringGenerator()
         {
@@ -30,10 +29,15 @@ namespace Console.ViewModel
             {
                 var MyValue = RowDictionary.First(x => x.Value.Name == item).Value.Value;
                 ObjectString += MyValue;
-                
+                if (ConfigurationList.IndexOf(item) == ConfigurationList.Count - 1 && ParameterSelectorVM.ConfigurationList.Count == 0)
+                {
+                    ObjectString += ";";
+                }
+                else
+                    ObjectString += "|";
             };
 
-            return "AC<GQGRGSGTGUGVGWGgGhGiGj>";
+            return ObjectString;
 
         }
 
