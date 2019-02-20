@@ -18,9 +18,19 @@ namespace Console.ViewModel
 {
   public class Console_WindowVM :INotifyPropertyChanged
     {
-        public ObservableCollection<Parameter> MyList { get; set; } = new ObservableCollection<Parameter>() { };
-        public ObservableCollection<Parameter> MyList2 { get; set; } = new ObservableCollection<Parameter>() { };
+        //-------- Properties
+        public ObservableCollection<Parameter> ParameterList { get; set; } = new ObservableCollection<Parameter>() { };
+        public ObservableCollection<Parameter> ObjectList { get; set; } = new ObservableCollection<Parameter>() { };
+        public ObservableCollection<ValuesObjects> DataGridBindingList { get; set; } = new ObservableCollection<ValuesObjects>() { };
+        public static bool Debug_ON { get; set; } = true;
         public ObservableCollection<ParameterObject> ListOfCommingObj { get; set; } = new ObservableCollection<ParameterObject>() { };
+
+        DispatcherTimer dt = new DispatcherTimer();
+        DispatcherTimer dt2 = new DispatcherTimer();
+        public bool OnlyOnce = true;
+
+        //---- INotifyPropetyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
         public string StartUpReportString
         {
             get { return _StartUp; }
@@ -30,23 +40,12 @@ namespace Console.ViewModel
                 RaisePropertyChanged();
             }
         }
-        public ObservableCollection<ValuesObjects> DataGridBindingList { get; set; } = new ObservableCollection<ValuesObjects>() { };
-        public static bool Debug_ON { get; set; } = true;
-        DispatcherTimer dt = new DispatcherTimer();
-        DispatcherTimer dt2 = new DispatcherTimer();
-        public bool OnlyOnce = true;
-        public event PropertyChangedEventHandler PropertyChanged;
         protected void RaisePropertyChanged([CallerMemberName]string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        public Console_WindowVM()
-        {
-         // MyList = new ObservableCollection<Parameter>() { };
-         // MyList = DictonaryImporter.ParameterList();
-         //GetNewLine(new object(), new EventArgs());
-        }
+  
         //---------- Commands------------
  
         int Debug_Switch = 0;
@@ -61,8 +60,6 @@ namespace Console.ViewModel
         private void Execute_Debug_On_Command(int obj)
         {
             ListOfCommingObj = DictonaryImporter.FinalListOfObjects;
-
-
             //Recheck for Can Excute
             Debug_Switch = 1;
             _Debug_Off_Command.RaiseCanExecuteChanged();
@@ -75,102 +72,95 @@ namespace Console.ViewModel
             }
             dt.Start();
         }
+        //-----------------------------
         //Check Every Second For UI update...
         private async void GetNewLine(object sender, EventArgs e)
         {
-            // Application.Current.Dispatcher.Invoke(CommandManager.InvalidateRequerySuggested);
-            MyList?.Clear();
+            ParameterList?.Clear();
             try
             {
-                MyList = await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator() +""+ ParameterSelectorVM.ConfigurationStringGenerator());
-                //MyList2 =  await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator());
+                ParameterList = await DictonaryImporter.ParameterList(StartUp_Report_FormatterVM.ConfigurationStringGenerator() +""+ ParameterSelectorVM.ConfigurationStringGenerator());
+                ObjectList = DictonaryImporter.FinalListOfObjectsGetter();
             }
             catch (Exception)
             {
-                MyList.Add(new Parameter
+                ParameterList.Add(new Parameter
                 {
                     ParamName = "Error",
                     Value = "Somthing Went Wrong....Make Sure the Device is connected then Press Debug ON again"
-
                 });
-                MyList2.Add(new Parameter
-                {
-                    ParamName = "Error",
-                    Value = "Somthing Went Wrong....Make Sure the Device is connected then Press Debug ON again"
-
-                });
+               
                 dt.Stop();
             }
             StartUpReportString = "";
-           /* foreach (var item in MyList2)
-            {
-                
-                StartUpReportString += item.ParamName + "    " + item.Value + "\n";
-            }*/
+             foreach (var item in ObjectList)
+             {
+                 StartUpReportString += item.ParamName + "    " + item.Value + "\n";
+             }
            ValuesObjects JustValuesObject = new ValuesObjects();
-           for (int i = 0; i < MyList.Count; i++)
+           for (int i = 0; i < ParameterList.Count; i++)
            {
                switch (i)
                {
                    case 0:
-                       JustValuesObject.Val1 = MyList[i].Value;
+                       JustValuesObject.Val1 = ParameterList[i].Value;
                        break;
                    case 1:
-                       JustValuesObject.Val2 = MyList[i].Value;
+                       JustValuesObject.Val2 = ParameterList[i].Value;
                        break;
                    case 2:
-                       JustValuesObject.Val3 = MyList[i].Value;
+                       JustValuesObject.Val3 = ParameterList[i].Value;
                        break;
                    case 3:
-                       JustValuesObject.Val4 = MyList[i].Value;
+                       JustValuesObject.Val4 = ParameterList[i].Value;
                        break;
                    case 4:
-                       JustValuesObject.Val5 = MyList[i].Value;
+                       JustValuesObject.Val5 = ParameterList[i].Value;
                        break;
                    case 5:
-                       JustValuesObject.Val6 = MyList[i].Value;
+                       JustValuesObject.Val6 = ParameterList[i].Value;
                        break;
                    case 6:
-                       JustValuesObject.Val7 = MyList[i].Value;
+                       JustValuesObject.Val7 = ParameterList[i].Value;
                        break;
                    case 7:
-                       JustValuesObject.Val8 = MyList[i].Value;
+                       JustValuesObject.Val8 = ParameterList[i].Value;
                        break;
                    case 8:
-                       JustValuesObject.Val9 = MyList[i].Value;
+                       JustValuesObject.Val9 = ParameterList[i].Value;
                        break;
                    case 9:
-                       JustValuesObject.Val10 = MyList[i].Value;
+                       JustValuesObject.Val10 = ParameterList[i].Value;
                        break;
                    case 10:
-                       JustValuesObject.Val11 = MyList[i].Value;
+                       JustValuesObject.Val11 = ParameterList[i].Value;
                        break;
                    case 11:
-                       JustValuesObject.Val12 = MyList[i].Value;
+                       JustValuesObject.Val12 = ParameterList[i].Value;
                        break;
                    case 12:
-                       JustValuesObject.Val13 = MyList[i].Value;
+                       JustValuesObject.Val13 = ParameterList[i].Value;
                        break;
                    case 13:
-                       JustValuesObject.Val14 = MyList[i].Value;
+                       JustValuesObject.Val14 = ParameterList[i].Value;
                        break;
                    case 14:
-                       JustValuesObject.Val15 = MyList[i].Value;
+                       JustValuesObject.Val15 = ParameterList[i].Value;
                        break;
                    case 15:
-                       JustValuesObject.Val16 = MyList[i].Value;
+                       JustValuesObject.Val16 = ParameterList[i].Value;
                        break;
                    case 16:
-                       JustValuesObject.Val17 = MyList[i].Value;
+                       JustValuesObject.Val17 = ParameterList[i].Value;
                        break;
                    case 17:
-                       JustValuesObject.Val18 = MyList[i].Value;
+                       JustValuesObject.Val18 = ParameterList[i].Value;
                        break;
                    case 18:
-                       JustValuesObject.Val19 = MyList[i].Value;
+                       JustValuesObject.Val19 = ParameterList[i].Value;
                        break;
                    case 19:
-                       JustValuesObject.Val20 = MyList[i].Value;
+                       JustValuesObject.Val20 = ParameterList[i].Value;
                        break;
 
                    default:
@@ -178,17 +168,16 @@ namespace Console.ViewModel
                }
            }
            DataGridBindingList.Add(JustValuesObject);
-            
         }
+
+
+        //--------------------------------------------- Debug Command
         private bool CanExecute_Debug_On_Command(int arg)
         {
             return (Debug_Switch ==0) ;
         }
-
-        // Debug_Off Command
         private RelayCommand<int> _Debug_Off_Command;
         private string _StartUp;
-
         public ICommand Debug_Off_Command
         {
             get

@@ -115,7 +115,7 @@ namespace DictionaryHandler
 
                 //first send all inside <> to split
 
-                TempList = ChappoSplitter(item.Substring(3, (item.Count() - 4)));
+                TempList = ChappoSplitter(item.Substring(3, (item.Count() -3)));
                 foreach (var InnerItem in TempList)
                 {
                     temp = InnerItem.ToList();
@@ -139,6 +139,12 @@ namespace DictionaryHandler
                 FinalListOfObjects.Add(ObjectDic[item[0] + "" + item[1]]);
 
             }
+        }
+
+        public static ObservableCollection<Parameter> FinalListOfObjectsGetter()
+        {
+            return FinalListOfObjects[0].ContainedParams;
+            
         }
         //------------------------------------------
         private static ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
@@ -215,6 +221,8 @@ namespace DictionaryHandler
                 }
             }
             return ProcessedList;
+
+            //old logic befor adding the ||
             /*  if (str == "")
               {
                   throw new NotImplementedException();
@@ -332,7 +340,7 @@ namespace DictionaryHandler
         {
             List<string> ProcessedList = new List<string> { };
             string SinglePartString = "";
-            str = str.Substring(6);
+           
             foreach (var character in str)
             {
                 if (character == 62) // > =  62

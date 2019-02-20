@@ -21,6 +21,7 @@ using System;
 using System.Collections;
 using Console.Model;
 using System.Collections.ObjectModel;
+using DictionaryHandler;
 
 namespace Console.View
 {
@@ -44,15 +45,13 @@ namespace Console.View
         private void UpdateEverySecond(object sender, EventArgs e)
         {
             DG.ScrollIntoView(DG.Items.GetItemAt(DG.Items.Count - 1));
-           
         }
-
         private void Open_Parameter_Selector(object sender, RoutedEventArgs e)
         {
             ParameterSelector win2 = new ParameterSelector();
             win2.Show();
         }
-
+        // auto scroll with optional stop 
             /*  private bool AutoScroll = true;
     private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
     {
@@ -80,18 +79,13 @@ namespace Console.View
     }
     }
     */
-
         public void ParameterWindowHasBeenClosed()
         {
-           
-
             //Delete all previous Columns
             while (DG.Columns.Count > 0)
             {
                 DG.Columns.RemoveAt(DG.Columns.Count - 1);
-               
             }
-
             // Assign Headers and bindings to columns
             for (int i = 0; i < ViewModel.ParameterSelectorVM.ConfigurationList.Count; i++)
             {
@@ -164,12 +158,10 @@ namespace Console.View
 
             }
         }
-
         private void Window_Activated(object sender, EventArgs e)
         {
             ParameterWindowHasBeenClosed();
         }
-
         private void Open_Formatter(object sender, RoutedEventArgs e)
         {
             var FormatterWindow = new StartUp_Report_Formatter();

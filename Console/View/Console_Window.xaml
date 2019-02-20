@@ -11,9 +11,6 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Activated="Window_Activated"
       >
-
-
-
     <Grid  Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"></RowDefinition>
@@ -29,7 +26,7 @@
                         Background="White" 
                         BorderThickness="1" 
                         CornerRadius="5" 
-                        Margin="11,11,11,11">   
+                        Margin="11,11,11,11">
                     <DataGrid
                         HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch" 
@@ -37,12 +34,35 @@
                         Name="DG" 
                         AutoGenerateColumns="False"
                         AlternatingRowBackground="LightBlue">
-                        
+
                     </DataGrid>
 
                 </Border >
             </TabItem>
             <TabItem Header="Startup Report">
+                <TextBlock Text="{Binding StartUpReportString}" Background="LightGray"  HorizontalAlignment="Left" VerticalAlignment="Top"></TextBlock>
+                <!--  <ListBox x:Name="ObjectList" Grid.Column="3" ItemsSource="{Binding IAMHere}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding ParamName }"></TextBox>
+                                <TextBox Grid.Column="1" Text="{Binding Value}"></TextBox>
+                                <TextBox Grid.Column="6" Text="{Binding Index}"></TextBox>
+                                <TextBox Grid.Column="2" Text="{Binding MemoryAddress}"></TextBox>
+                                <TextBox Grid.Column="3" Text="{Binding MinValue}"></TextBox>
+                                <TextBox Grid.Column="4" Text="{Binding MaxValue}"></TextBox>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <Border BorderBrush="Black">
                     <ListBox ItemsSource="{Binding ListOfCommingObj}">
                         <ListBox.ItemTemplate>
@@ -55,30 +75,28 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBox Text="{Binding Name}"></TextBox>
                                     <TextBox Grid.Column="1" Text="{Binding MemoryAddress}"></TextBox>
-                                    <ListBox Grid.Column="2" ItemsPanel="{Binding ContainedParams}">
-                                        <ListBox.ItemTemplate>
+                                    <ListBox Grid.Column="2" Itemssource="{Binding IAMHere}">
+                                       <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="100"></ColumnDefinition>
                                                         <ColumnDefinition Width="100"></ColumnDefinition>
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBox Text="{Binding ParamName}"></TextBox>
+                                                    <TextBox Text="{Binding }"></TextBox>
                                                     <TextBox Grid.Column="1" Text="{Binding Value}"></TextBox>
                                                 </Grid>
                                             </DataTemplate>
-                                        </ListBox.ItemTemplate>
+                                        </ListBox.ItemTemplate> 
                                     </ListBox>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Border>
-             
+             -->
             </TabItem>
         </TabControl>
-       
-
         <Grid Grid.Row="1" Margin="0,0,0,22" >
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
@@ -135,20 +153,20 @@
     </Grid>
 </Window>
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!--
@@ -164,7 +182,7 @@
             </DataGrid.Columns>
             -->
 <!--
-<ItemsControl Background="Red" ItemsSource="{Binding MyList}" Style="{StaticResource LogViewerStyle}">
+<ItemsControl Background="Red" ItemsSource="{Binding ParameterList}" Style="{StaticResource LogViewerStyle}">
     <ItemsControl.Template>
         <ControlTemplate>
             <ScrollViewer CanContentScroll="True" ScrollChanged="ScrollViewer_ScrollChanged">
@@ -183,7 +201,7 @@
 <!--   <Grid>
         <ListView Grid.Column="0" Margin="5" 
                   Name="CoffeeListView" 
-                  ItemsSource="{Binding MyList}" 
+                  ItemsSource="{Binding ParameterList}" 
                   Background="White"
                   VerticalAlignment="Top">
             <ListView.ItemsPanel>

@@ -29,7 +29,7 @@ namespace Console.View
         private void MoveElement(object sender, RoutedEventArgs e)
         {
             TempList.Clear();
-            TempList.Add("Date");
+            
             foreach (var item in FirstList.SelectedItems)
             {
                 TempList.Add(item.ToString());
