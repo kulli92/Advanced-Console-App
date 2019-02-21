@@ -22,7 +22,7 @@ namespace DictionaryHandler
         public static void ParameterDicInitilizer()
         {
             DictionaryHasBeenInitilized = true;
-            var package = new ExcelPackage(new FileInfo(@"C:\Users\Aklli\Desktop\ParamsDic08082018.xlsx"));
+            var package = new ExcelPackage(new FileInfo("FMS Dictionary.xlsx"));
             ExcelWorksheet sheet = package.Workbook.Worksheets[1];
             for (int i = 1; i < 419; i++)
             {
@@ -90,7 +90,6 @@ namespace DictionaryHandler
             List<string> TempObjectContainer = new List<string> { };
             List<string> TempParameterContainer = new List<string> { };
             List<char> temp = new List<char> { };
-
             foreach (var item in ProccessedList)
             {
                 if (item[2] == 60)  //Seperate Objects segments that starts with a <
@@ -112,9 +111,7 @@ namespace DictionaryHandler
             {
                 List<string> TempList = new List<string>() { };
                 //here we have AA<Gg345Gi834>
-
                 //first send all inside <> to split
-
                 TempList = ChappoSplitter(item.Substring(3, (item.Count() -3)));
                 foreach (var InnerItem in TempList)
                 {
