@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Console.View"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Height="73" 
              >
     <StackPanel Margin="8,8,8,8">
         <Grid Height="auto" Width="auto" HorizontalAlignment="Stretch"
@@ -22,21 +22,19 @@
             <StackPanel ></StackPanel>
             
             <Label    Grid.Row="0" Grid.Column="0"  VerticalAlignment="Top"  HorizontalAlignment="Center" >Port Number:</Label>
-            <ComboBox   Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" >
-                <ComboBoxItem IsSelected="True">COM1</ComboBoxItem>
-                <ComboBoxItem>COM9</ComboBoxItem>
-                <ComboBoxItem>COM10</ComboBoxItem>
+            <ComboBox    x:Name="AvailableCom" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Width="75"
+                       DropDownOpened="AvailableCom_DropDownOpened"
+                       >
+                
             </ComboBox>
-            
-            
+
             <Label   Grid.Row="0" Grid.Column="1"  VerticalAlignment="Top" HorizontalAlignment="Center">Baud Rate:</Label>
             <ComboBox  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" >
                 <ComboBoxItem IsSelected="True">57600</ComboBoxItem>
                 <ComboBoxItem>115200</ComboBoxItem>
                 <ComboBoxItem>Others</ComboBoxItem>
             </ComboBox>
-            
-            
+
             <Label Grid.Row="0" Grid.Column="2"  VerticalAlignment="Top"  HorizontalAlignment="Center">Stop Bits:</Label>
             <ComboBox  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" >
                 <ComboBoxItem IsSelected="True">1</ComboBoxItem>
@@ -45,7 +43,7 @@
             </ComboBox>
             
             
-            <Button Grid.Column="3" Margin="11,11,11,11" Grid.RowSpan="2">Open Port</Button>
+            <Button x:Name="OpenPort" Grid.Column="3" Margin="2" Grid.RowSpan="2" Click="Open_Port">Open Port</Button>
             
             
         </Grid>

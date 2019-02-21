@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DictionaryHandler;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +22,35 @@ namespace Console.View
     public partial class SerialPort : UserControl
     {
         public SerialPort()
+
         {
             InitializeComponent();
+        }
+
+        public List<string> Coms { get; set; } = new List<string> { };
+
+        private void Open_Port(object sender, RoutedEventArgs e)
+        {
+            if ((string)OpenPort.Content != "Open Port")
+            {
+                OpenPort.Content = "Open Port";
+                DictonaryImporter.Tunnel.ClosePort();
+                AvailableCom.IsEnabled = true;
+            }
+            else
+            {
+                OpenPort.Content = "Close Port";
+                DictonaryImporter.Tunnel.OpenPort(AvailableCom.SelectedItem.ToString());
+                AvailableCom.IsEnabled = false;
+            }
+        }
+        private void AvailableCom_DropDownOpened(object sender, EventArgs e)
+        {
+            foreach (var item in System.IO.Ports.SerialPort.GetPortNames())
+            {
+               Coms.Add(item);
+            }
+            AvailableCom.ItemsSource = Coms;
         }
     }
 }

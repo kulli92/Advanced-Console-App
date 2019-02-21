@@ -11,11 +11,18 @@ namespace DictionaryHandler
   public  class SerialCommunicationTunnel
     {
         SerialPort serialPort = new SerialPort();
+        
         public SerialCommunicationTunnel()
+        {
+          
+        }
+
+
+        public void OpenPort(string Port)
         {
             if (!serialPort.IsOpen)
             {
-                serialPort.PortName = "COM12";
+                serialPort.PortName = Port;
                 serialPort.Handshake = Handshake.None;
                 serialPort.BaudRate = 57600;
                 serialPort.Handshake = Handshake.None;
@@ -24,9 +31,18 @@ namespace DictionaryHandler
                 serialPort.StopBits = StopBits.One;
                 serialPort.ReadTimeout = 200;
                 serialPort.WriteTimeout = 50;
+                serialPort.DtrEnable = true;
                 serialPort.Open();
             }
         }
+        public void ClosePort()
+        {
+            if (serialPort.IsOpen)
+            {
+                serialPort.Close();
+            }
+        }
+
         public async Task<string> SelectedParameterValueGetter(string ManullyWrittenShema, short IntervalTime,short Repeat)
         {
             /*
@@ -69,7 +85,7 @@ namespace DictionaryHandler
                 serialPort.Write(CustomSchema, 0, CustomSchema.Count());
                 serialPort.Write(crc, 0, crc.Count());
                 await Task.Delay(1000);
-                 string DeviceResponse = serialPort.ReadExisting() + " ";
+                string DeviceResponse = serialPort.ReadExisting() + " ";
                 return DeviceResponse;
                 /*  int x = StaticResponseString.LastIndexOf(';');
                   if (x == -1)
