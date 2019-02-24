@@ -11,13 +11,7 @@ namespace DictionaryHandler
   public  class SerialCommunicationTunnel
     {
         SerialPort serialPort = new SerialPort();
-        
-        public SerialCommunicationTunnel()
-        {
-          
-        }
-
-
+        //-----------------------------------
         public void OpenPort(string Port)
         {
             if (!serialPort.IsOpen)
@@ -35,6 +29,7 @@ namespace DictionaryHandler
                 serialPort.Open();
             }
         }
+        //-----------------------------------
         public void ClosePort()
         {
             if (serialPort.IsOpen)
@@ -42,7 +37,7 @@ namespace DictionaryHandler
                 serialPort.Close();
             }
         }
-
+        //----------------------------------- Communicate with the device and return the response 
         public async Task<string> SelectedParameterValueGetter(string ManullyWrittenShema, short IntervalTime,short Repeat)
         {
             /*
@@ -102,8 +97,7 @@ namespace DictionaryHandler
             }
 
         }
-
-        /*{
+        /*{ the old logic 
             if (!serialPort.IsOpen)
             {
                 serialPort.Open();

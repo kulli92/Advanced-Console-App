@@ -13,7 +13,7 @@ namespace Console.ViewModel
         public static Dictionary<string, ParameterObject> RowDictionary { get; set; }
         public List<string> NamesList { get; set; } = new List<string> { };
         public static ObservableCollection<string> ConfigurationList { get; set; } = new ObservableCollection<string>() { };
-
+        //-----------------------------------
         public StartUp_Report_FormatterVM()
         {
             RowDictionary = DictonaryImporter.RowObjectDictionaryProvider();
@@ -22,6 +22,7 @@ namespace Console.ViewModel
                 NamesList.Add(item.Value.Name);
             }
         }
+        //-----------------------------------
         public static string ConfigurationStringGenerator()
         {
             string ObjectString = "";
@@ -36,10 +37,8 @@ namespace Console.ViewModel
                 else
                     ObjectString += "|";
             };
-
             return ObjectString;
 
         }
-
     }
 }

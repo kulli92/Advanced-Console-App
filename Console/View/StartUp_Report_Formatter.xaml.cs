@@ -20,11 +20,12 @@ namespace Console.View
     /// </summary>
     public partial class StartUp_Report_Formatter : Window
     {
+        public static ObservableCollection<string> TempList { get; set; } = new ObservableCollection<string>() { };
         public StartUp_Report_Formatter()
         {
             InitializeComponent();
         }
-        public static ObservableCollection<string> TempList { get; set; } = new ObservableCollection<string>() { };
+        //-----------------------------------
         private void MoveElement(object sender, RoutedEventArgs e)
         {
             TempList.Clear();
@@ -35,7 +36,7 @@ namespace Console.View
             }
             SecondList.ItemsSource = TempList;
         }
-
+        //-----------------------------------
         private void Save_And_Exit(object sender, RoutedEventArgs e)
         {
             //used in creating new columns header

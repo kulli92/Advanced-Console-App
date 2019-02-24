@@ -13,7 +13,7 @@ namespace Console.ViewModel
         public static Dictionary<string, Parameter> RowDictionary { get; set; }
         public List<string> NamesList { get; set; } = new List<string> { };
         public static ObservableCollection<string> ConfigurationList { get; set; } = new ObservableCollection<string>() { };
-
+        //-----------------------------------
         public ParameterSelectorVM()
         {
             RowDictionary = DictonaryImporter.RowDictionaryProvider();
@@ -21,7 +21,8 @@ namespace Console.ViewModel
             {
                 NamesList.Add(item.Value.ParamName);
             }
-        } 
+        }
+        //-----------------------------------
         public static string ConfigurationStringGenerator()
         {
             string KiesString = "";

@@ -20,12 +20,12 @@ namespace Console.View
     /// </summary>
     public partial class ParameterSelector : Window
     {
-        
+        public static ObservableCollection<string> TempList { get; set; } = new ObservableCollection<string>() { };
         public ParameterSelector()
         {
             InitializeComponent();
         }
-        public static ObservableCollection<string> TempList { get; set; } = new ObservableCollection<string>() { };
+        //-----------------------------------
         private void MoveElement(object sender, RoutedEventArgs e)
         {
             TempList.Clear();
@@ -36,7 +36,7 @@ namespace Console.View
             }
             SecondList.ItemsSource = TempList;
         }
-
+        //-----------------------------------
         private void Save_And_Exit(object sender, RoutedEventArgs e)
         {
             //used in creating new columns header
@@ -45,7 +45,7 @@ namespace Console.View
             Close();
             
         }
-
+        //-----------------------------------
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ViewModel.ViewModelLocator.Mine.DataGridBindingList?.Clear();

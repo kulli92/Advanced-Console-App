@@ -15,7 +15,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
 using System.Data;
 using System;
 using System.Collections;
@@ -25,15 +24,16 @@ using DictionaryHandler;
 
 namespace Console.View
 {
-    /// <summary>
-    /// Interaction logic for Console_Window.xaml
-    /// </summary>
+ 
     public partial class Console_Window : Window
 
     {
+        // this object used as a header for the grid
         public ValuesObjects ValuesBuffer { get; set; } = new ValuesObjects();
+        // sending Debug on command through data-binding not through event handling 
         public static bool Debug_On { get; private set; } = false;
 
+        //-----------------------------------
         public Console_Window()
         {
             InitializeComponent();
@@ -42,43 +42,18 @@ namespace Console.View
             dt.Tick += UpdateEverySecond;
             dt.Start();
         }
+        //-----------------------------------
         private void UpdateEverySecond(object sender, EventArgs e)
         {
             DG.ScrollIntoView(DG.Items.GetItemAt(DG.Items.Count - 1));
         }
+        //-----------------------------------
         private void Open_Parameter_Selector(object sender, RoutedEventArgs e)
         {
             ParameterSelector win2 = new ParameterSelector();
             win2.Show();
         }
-        // auto scroll with optional stop 
-            /*  private bool AutoScroll = true;
-    private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
-    {
-    DG.HeadersVisibility = System.Windows.Controls.DataGridHeadersVisibility.All ;
-    // User scroll event : set or unset autoscroll mode
-    if (e.ExtentHeightChange == 0)
-    {   // Content unchanged : user scroll event
-    if ((e.Source as ScrollViewer).VerticalOffset == (e.Source as ScrollViewer).ScrollableHeight)
-    {   // Scroll bar is in bottom
-        // Set autoscroll mode
-        AutoScroll = true;
-    }
-    else
-    {   // Scroll bar isn't in bottom
-        // Unset autoscroll mode
-        AutoScroll = false;
-    }
-    }
-
-    // Content scroll event : autoscroll eventually
-    if (AutoScroll && e.ExtentHeightChange != 0)
-    {   // Content changed and autoscroll mode set
-    // Autoscroll
-    //(e.Source as ScrollViewer).ScrollToVerticalOffset((e.Source as ScrollViewer).ExtentHeight);
-    }
-    }
-    */
+        //-----------------------------------
         public void ParameterWindowHasBeenClosed()
         {
             //Delete all previous Columns
@@ -158,10 +133,12 @@ namespace Console.View
 
             }
         }
+        //-----------------------------------
         private void Window_Activated(object sender, EventArgs e)
         {
             ParameterWindowHasBeenClosed();
         }
+        //-----------------------------------
         private void Open_Formatter(object sender, RoutedEventArgs e)
         {
             var FormatterWindow = new StartUp_Report_Formatter();
@@ -169,6 +146,34 @@ namespace Console.View
         }
     }
 }
+//----------------------------------- to be reimplemented
+/*  auto scroll with optional stop    
+private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+{
+DG.HeadersVisibility = System.Windows.Controls.DataGridHeadersVisibility.All ;
+// User scroll event : set or unset autoscroll mode
+if (e.ExtentHeightChange == 0)
+{   // Content unchanged : user scroll event
+if ((e.Source as ScrollViewer).VerticalOffset == (e.Source as ScrollViewer).ScrollableHeight)
+{   // Scroll bar is in bottom
+// Set autoscroll mode
+AutoScroll = true;
+}
+else
+{   // Scroll bar isn't in bottom
+// Unset autoscroll mode
+AutoScroll = false;
+}
+}
+
+// Content scroll event : autoscroll eventually
+if (AutoScroll && e.ExtentHeightChange != 0)
+{   // Content changed and autoscroll mode set
+// Autoscroll
+//(e.Source as ScrollViewer).ScrollToVerticalOffset((e.Source as ScrollViewer).ExtentHeight);
+}
+}
+*/
 
 
 

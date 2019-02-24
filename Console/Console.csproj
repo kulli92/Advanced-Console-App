@@ -83,9 +83,6 @@
     <Compile Include="View\Console_Window.xaml.cs">
       <DependentUpon>Console_Window.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Log.xaml.cs">
-      <DependentUpon>Log.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\ParameterSelector.xaml.cs">
       <DependentUpon>ParameterSelector.xaml</DependentUpon>
     </Compile>
@@ -128,10 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\Console_Window.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Log.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

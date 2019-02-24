@@ -15,10 +15,59 @@ namespace DictionaryHandler
         public static Dictionary<string, Parameter> ParamDic = new Dictionary<string, Parameter> { };
         public static Dictionary<string, Parameter> ParamObjectRelatedDic = new Dictionary<string, Parameter> { };
         static Dictionary<string, ParameterObject> ObjectDic = new Dictionary<string, ParameterObject> { };
-        // readonly string data;
         static public bool DictionaryHasBeenInitilized { get; set; } = false;
         public static SerialCommunicationTunnel Tunnel { get; set; } = new SerialCommunicationTunnel();
-        //------------------------------------------
+        private static ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
+        public static ObservableCollection<ParameterObject> FinalListOfObjects = new ObservableCollection<ParameterObject> { };
+        public static ObservableCollection<Parameter> FinalContainedParameter = new ObservableCollection<Parameter> { };
+
+        //----------------------------------- used the the main access point to this class library
+        public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString)
+        {
+            string TempString = "";
+            //string DeviceResponse = ""; 
+            FinalList.Clear();
+            FinalListOfObjects?.Clear();
+            List<string> ProccessedList = new List<string> { };
+            if (DictionaryHasBeenInitilized == false)
+            {
+                ParameterDicInitilizer();
+            }
+            ProccessedList = StringSplitter(await Tunnel.SelectedParameterValueGetter(ConfigurationString, 1, 1));
+            foreach (var item in ParamDic)
+            {
+                item.Value.Value = "";
+            }
+            ParameterDefiner(ProccessedList);
+            foreach (var ParameterKey in ParamDic)
+            {
+                if (ParameterKey.Value.Value != "")
+                {
+                    TempString = ParameterKey.Value.Value;
+                    TempString = new string((from c in TempString
+                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':' || c == ','
+                                             select c
+                                              ).ToArray());
+                    ParameterKey.Value.Value = TempString;
+                    FinalList.Add(ParameterKey.Value);
+                }
+            }
+            foreach (var ParameterKey in ParamObjectRelatedDic)
+            {
+                if (ParameterKey.Value.Value != "")
+                {
+                    TempString = ParameterKey.Value.Value;
+                    TempString = new string((from c in TempString
+                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':' || c == ','
+                                             select c
+                                              ).ToArray());
+                    ParameterKey.Value.Value = TempString;
+                    FinalContainedParameter.Add(ParameterKey.Value);
+                }
+            }
+            return FinalList;
+        }
+        //----------------------------------- Dictionary initilizer 
         public static void ParameterDicInitilizer()
         {
             DictionaryHasBeenInitilized = true;
@@ -57,7 +106,7 @@ namespace DictionaryHandler
                 });
             }
         }
-        //------------------------------------------
+        //-----------------------------------
         public static Dictionary<string, Parameter> RowDictionaryProvider()
         {
             if (DictionaryHasBeenInitilized)
@@ -70,7 +119,7 @@ namespace DictionaryHandler
                 return ParamDic;
             }
         }
-        //----------------------
+        //-----------------------------------
         public static Dictionary<string, ParameterObject> RowObjectDictionaryProvider()
         {
             if (DictionaryHasBeenInitilized)
@@ -83,8 +132,7 @@ namespace DictionaryHandler
                 return ObjectDic;
             }
         }
-
-        //-----------------
+        //----------------------------------- this method assign incomming value to the associated parameter in the Dicitionary 
         public static void ParameterDefiner(List<string> ProccessedList)
         {
             List<string> TempObjectContainer = new List<string> { };
@@ -137,64 +185,14 @@ namespace DictionaryHandler
 
             }
         }
-
+        //-----------------------------------
         public static ObservableCollection<Parameter> FinalListOfObjectsGetter()
         {
             return FinalListOfObjects[0].ContainedParams;
             
         }
-        //------------------------------------------
-        private static ObservableCollection<Parameter> FinalList = new ObservableCollection<Parameter> { };
-        public static ObservableCollection<ParameterObject> FinalListOfObjects = new ObservableCollection<ParameterObject> { };
-        public static ObservableCollection<Parameter> FinalContainedParameter = new ObservableCollection<Parameter> { };
-        public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString)
-        {
-            string TempString = "";
-            //string DeviceResponse = ""; 
-            FinalList.Clear();
-            FinalListOfObjects?.Clear();
-            List<string> ProccessedList = new List<string> { };
-            if (DictionaryHasBeenInitilized == false)
-            {
-                ParameterDicInitilizer();
-            }
-            ProccessedList = StringSplitter(await Tunnel.SelectedParameterValueGetter(ConfigurationString, 1, 1));
-            foreach (var item in ParamDic)
-            {
-                item.Value.Value = "";
-            }
-            ParameterDefiner(ProccessedList);
-            foreach (var ParameterKey in ParamDic)
-            {
-                if (ParameterKey.Value.Value != "")
-                {
-                    TempString = ParameterKey.Value.Value;
-                    TempString = new string((from c in TempString
-                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':' || c == ','
-                                             select c
-                                              ).ToArray());
-                    ParameterKey.Value.Value = TempString;
-                    FinalList.Add(ParameterKey.Value);
-                }
-            }
-            foreach (var ParameterKey in ParamObjectRelatedDic)
-            {
-                if (ParameterKey.Value.Value != "")
-                {
-                    TempString = ParameterKey.Value.Value;
-                    TempString = new string((from c in TempString
-                                             where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '/' || c == '.' || c == ':' || c == ','
-                                             select c
-                                              ).ToArray());
-                    ParameterKey.Value.Value = TempString;
-                    FinalContainedParameter.Add(ParameterKey.Value);
-                }
-            }
-            return FinalList;
-        }
-        //----------------------------------- String Splitter_________
-
-        #region 
+        //----------------------------------- String Splitter this method split AA23|AB32 
+        #region  
         private static List<string> StringSplitter(string str)
         {
             List<string> ProcessedList = new List<string> { };
@@ -219,7 +217,7 @@ namespace DictionaryHandler
             }
             return ProcessedList;
 
-            //old logic befor adding the ||
+            //old logic befor adding the | OR operator 
             /*  if (str == "")
               {
                   throw new NotImplementedException();
@@ -227,10 +225,8 @@ namespace DictionaryHandler
               List<string> ProccessedList = new List<string> { };
               ProccessedList.Add(str[0] + "" + str[1]);
               var SinglPartString = ProccessedList[0];
-
               int counter = 3;
               int i = 0;
-
               //59 = ;
               while (counter < str.Length && str[counter - 1] != 59)
               {

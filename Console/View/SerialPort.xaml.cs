@@ -21,14 +21,13 @@ namespace Console.View
     /// </summary>
     public partial class SerialPort : UserControl
     {
+        public List<string> Coms { get; set; } = new List<string> { };
         public SerialPort()
 
         {
             InitializeComponent();
         }
-
-        public List<string> Coms { get; set; } = new List<string> { };
-
+        //-----------------------------------
         private void Open_Port(object sender, RoutedEventArgs e)
         {
             if ((string)OpenPort.Content != "Open Port")
@@ -44,6 +43,7 @@ namespace Console.View
                 AvailableCom.IsEnabled = false;
             }
         }
+        //-----------------------------------
         private void AvailableCom_DropDownOpened(object sender, EventArgs e)
         {
             foreach (var item in System.IO.Ports.SerialPort.GetPortNames())
