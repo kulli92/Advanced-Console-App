@@ -42,17 +42,20 @@ namespace Console.View
             dt.Tick += UpdateEverySecond;
             dt.Start();
         }
+
         //-----------------------------------
         private void UpdateEverySecond(object sender, EventArgs e)
         {
             DG.ScrollIntoView(DG.Items.GetItemAt(DG.Items.Count - 1));
         }
+
         //-----------------------------------
         private void Open_Parameter_Selector(object sender, RoutedEventArgs e)
         {
             ParameterSelector win2 = new ParameterSelector();
             win2.Show();
         }
+
         //-----------------------------------
         public void ParameterWindowHasBeenClosed()
         {
@@ -133,11 +136,13 @@ namespace Console.View
 
             }
         }
+
         //-----------------------------------
         private void Window_Activated(object sender, EventArgs e)
         {
             ParameterWindowHasBeenClosed();
         }
+
         //-----------------------------------
         private void Open_Formatter(object sender, RoutedEventArgs e)
         {

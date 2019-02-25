@@ -43,6 +43,7 @@ namespace Console.View
                 AvailableCom.IsEnabled = false;
             }
         }
+
         //-----------------------------------
         private void AvailableCom_DropDownOpened(object sender, EventArgs e)
         {

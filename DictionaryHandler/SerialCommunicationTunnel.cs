@@ -29,6 +29,7 @@ namespace DictionaryHandler
                 serialPort.Open();
             }
         }
+
         //-----------------------------------
         public void ClosePort()
         {
@@ -37,6 +38,7 @@ namespace DictionaryHandler
                 serialPort.Close();
             }
         }
+
         //----------------------------------- Communicate with the device and return the response 
         public async Task<string> SelectedParameterValueGetter(string ManullyWrittenShema, short IntervalTime,short Repeat)
         {

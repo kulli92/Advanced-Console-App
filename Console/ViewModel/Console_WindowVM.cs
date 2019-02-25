@@ -27,6 +27,7 @@ namespace Console.ViewModel
         DispatcherTimer dt = new DispatcherTimer();
         DispatcherTimer dt2 = new DispatcherTimer();
         public bool OnlyOnce = true;
+
         //----------------------------------- INotifyPropetyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         public string StartUpReportString
@@ -38,6 +39,7 @@ namespace Console.ViewModel
                 RaisePropertyChanged();
             }
         }
+
         //-----------------------------------
         protected void RaisePropertyChanged([CallerMemberName]string property = "")
         {
@@ -69,6 +71,7 @@ namespace Console.ViewModel
             }
             dt.Start();
         }
+
         //----------------------------------- Check Every Second For UI update...
         private async void GetNewLine(object sender, EventArgs e)
         {
@@ -165,11 +168,13 @@ namespace Console.ViewModel
            }
            DataGridBindingList.Add(JustValuesObject);
         }
+
         //--------------------------------------------- Debug Command
         private bool CanExecute_Debug_On_Command(int arg)
         {
             return (Debug_Switch ==0) ;
         }
+
         //-----------------------------------
         private RelayCommand<int> _Debug_Off_Command;
         private string _StartUp;
@@ -181,6 +186,7 @@ namespace Console.ViewModel
                      (_Debug_Off_Command = new RelayCommand<int>(Execute_Debug_Off_Command, CanExecute_Debug_Off_Command));
             }
         }
+
         //-----------------------------------
         private void Execute_Debug_Off_Command(int obj)
         {
@@ -189,6 +195,7 @@ namespace Console.ViewModel
             _Debug_On_Command.RaiseCanExecuteChanged();
             _Debug_Off_Command.RaiseCanExecuteChanged();
         }
+
         //-----------------------------------
         private bool CanExecute_Debug_Off_Command(int arg)
         {

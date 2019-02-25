@@ -67,6 +67,7 @@ namespace DictionaryHandler
             }
             return FinalList;
         }
+
         //----------------------------------- Dictionary initilizer 
         public static void ParameterDicInitilizer()
         {
@@ -106,6 +107,7 @@ namespace DictionaryHandler
                 });
             }
         }
+
         //-----------------------------------
         public static Dictionary<string, Parameter> RowDictionaryProvider()
         {
@@ -119,6 +121,7 @@ namespace DictionaryHandler
                 return ParamDic;
             }
         }
+
         //-----------------------------------
         public static Dictionary<string, ParameterObject> RowObjectDictionaryProvider()
         {
@@ -132,6 +135,7 @@ namespace DictionaryHandler
                 return ObjectDic;
             }
         }
+
         //----------------------------------- this method assign incomming value to the associated parameter in the Dicitionary 
         public static void ParameterDefiner(List<string> ProccessedList)
         {
@@ -185,12 +189,14 @@ namespace DictionaryHandler
 
             }
         }
+
         //-----------------------------------
         public static ObservableCollection<Parameter> FinalListOfObjectsGetter()
         {
             return FinalListOfObjects[0].ContainedParams;
             
         }
+
         //----------------------------------- String Splitter this method split AA23|AB32 
         #region  
         private static List<string> StringSplitter(string str)

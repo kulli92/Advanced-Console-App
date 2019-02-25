@@ -25,6 +25,7 @@ namespace Console.View
         {
             InitializeComponent();
         }
+
         //-----------------------------------
         private void MoveElement(object sender, RoutedEventArgs e)
         {
@@ -36,6 +37,7 @@ namespace Console.View
             }
             SecondList.ItemsSource = TempList;
         }
+
         //-----------------------------------
         private void Save_And_Exit(object sender, RoutedEventArgs e)
         {

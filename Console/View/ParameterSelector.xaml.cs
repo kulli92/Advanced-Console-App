@@ -36,6 +36,7 @@ namespace Console.View
             }
             SecondList.ItemsSource = TempList;
         }
+
         //-----------------------------------
         private void Save_And_Exit(object sender, RoutedEventArgs e)
         {
@@ -45,6 +46,7 @@ namespace Console.View
             Close();
             
         }
+
         //-----------------------------------
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
