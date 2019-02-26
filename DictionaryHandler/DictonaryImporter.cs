@@ -22,7 +22,7 @@ namespace DictionaryHandler
         public static ObservableCollection<Parameter> FinalContainedParameter = new ObservableCollection<Parameter> { };
 
         //----------------------------------- used the the main access point to this class library
-        public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString)
+        public static async Task<ObservableCollection<Parameter>> ParameterList(string ConfigurationString,short interval=1,short repeate=1)
         {
             string TempString = "";
             //string DeviceResponse = ""; 
@@ -33,7 +33,8 @@ namespace DictionaryHandler
             {
                 ParameterDicInitilizer();
             }
-            ProccessedList = StringSplitter(await Tunnel.SelectedParameterValueGetter(ConfigurationString, 1, 1));
+            ProccessedList = StringSplitter(await Tunnel.SelectedParameterValueGetter(ConfigurationString, interval, interval));
+
             foreach (var item in ParamDic)
             {
                 item.Value.Value = "";

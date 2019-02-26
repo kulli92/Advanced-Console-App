@@ -70,8 +70,7 @@ namespace DictionaryHandler
                 //byte DataLength = SchemaIdArray[0];
                 byte[] Command = { 0x24, 0x47, 0x53, 0x2c }; // @GS,
                 byte[] crc = { 0xAA, 0XEA };//Any crc
-
-
+               
                 // char[] temparray = FinalFormattedString.ToCharArray();
                 serialPort.Write(PrefixCommand, 0, PrefixCommand.Length);
                 serialPort.Write(DataLength, 0, 2);
